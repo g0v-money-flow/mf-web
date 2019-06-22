@@ -1,0 +1,21 @@
+.candidateBlocks {
+}
+.candidateBlock {
+  display: flex;
+  margin-bottom: 2rem;
+}
+
+.candidateName {
+  flex: 3;
+}
+
+.candidateFinanceBlock {
+  flex: 6;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.candidateFinanceDetailBlock {
+  display: flex;
+}
