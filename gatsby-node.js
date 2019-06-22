@@ -56,10 +56,12 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
     const election = edge.node
     election.regions.forEach((region) => {
       region.constituencies.forEach((constituency) => {
+        const urlPrefix = `elections/${election.name.toLowerCase().replace(/\s/g, '-')}`
         createPage({
-          path: `elections/${election.name.toLowerCase().replace(/\s/g, '-')}/regions/${region.name}/constituencies/${constituency.name}`,
+          path: `${urlPrefix}/regions/${region.name}/constituencies/${constituency.name}`,
           component: require.resolve('./src/templates/constituencies/show.js'),
           context: {
+            urlPrefix: urlPrefix,
             election: election,
             regionName: region.name,
             constituenciesOfRegion: region.constituencies,

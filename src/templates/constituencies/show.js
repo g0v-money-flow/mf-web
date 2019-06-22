@@ -4,55 +4,15 @@ import { graphql } from "gatsby"
 import Layout from "../../components/layout"
 import style from "../../stylesheets/constituency.module.css"
 
-// export const query = graphql`
-//   {
-//     allElectionJson {
-//       edges {
-//         node {
-//           name
-//           regions {
-//             name
-//             constituencies {
-//               name
-//               candidates {
-//                 name
-//                 partyName
-//                 isElected
-//                 rateOfVote
-//                 finance {
-//                   income {
-//                     total
-//                     items {
-//                       name
-//                       amount
-//                     }
-//                   }
-//                   outcome {
-//                     total
-//                     items {
-//                       name
-//                       amount
-//                     }
-//                   }
-//                 }
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// `
-
 const Constituency = ({ pageContext }) => {
   const regions = pageContext.election.regions.map((region) =>
-    <Link to='/`${region.constituencies.first}`'></Link>
+    <Link to={ `${pageContext.urlPrefix}/regions/${region.name}/constituencies/${region.constituencies[0].name}` }>{ region.name }</Link>
   )
   return(
     <Layout>
       <div>
         <h1>{ pageContext.election.name }</h1>
-        
+        <div>{ regions }</div>
         
         <ConstituenciesOfRegion electionSlug={ pageContext.election.name.toLowerCase().replace(/\s/g, '-') }
                                 constituencies={ pageContext.constituenciesOfRegion }
