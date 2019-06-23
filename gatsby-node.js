@@ -9,34 +9,25 @@
 exports.createPages = async({ actions: { createPage }, graphql }) => {
   const results = await graphql(`
     {
-      allElectionJson {
-        edges {
-          node {
+      allElectionsJsonData(filter: { name: { ne: null } }) {
+        nodes {
+          name
+          regions {
             name
-            regions {
+            constituencies {
               name
-              constituencies {
+              candidates {
+                isElected
                 name
-                candidates {
-                  name
-                  partyName
-                  isElected
-                  rateOfVote
-                  finance {
-                    income {
-                      total
-                      items {
-                        name
-                        amount
-                      }
-                    }
-                    outcome {
-                      total
-                      items {
-                        name
-                        amount
-                      }
-                    }
+                numOfVote
+                partyName
+                rateOfVote
+                finance {
+                  income {
+                    total
+                  }
+                  outcome {
+                    total
                   }
                 }
               }
@@ -52,8 +43,8 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
     return
   }
 
-  results.data.allElectionJson.edges.forEach((edge) => {
-    const election = edge.node
+  results.data.allElectionsJsonData.nodes.forEach((node) => {
+    const election = node
     election.regions.forEach((region) => {
       region.constituencies.forEach((constituency) => {
         const urlPrefix = `elections/${election.name.toLowerCase().replace(/\s/g, '-')}`

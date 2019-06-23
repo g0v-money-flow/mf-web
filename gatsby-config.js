@@ -28,6 +28,37 @@ module.exports = {
       },
     },
     `gatsby-plugin-sass`,
+    {
+      resolve: "gatsby-source-apiserver",
+      options: {
+        typePrefix: `elections`,
+        enableDevRefresh: true,
+        url: `http://35.184.76.205/api/v1/graphql`,
+        data: {},
+        method: `get`,
+        headers: {
+          "Content-Type": "application/json"
+        },
+        auth: false,
+        entitiesArray: [
+          {
+            name: `JsonData`,
+            entityLevel: `data.all`,
+            params: {
+              query: `{ all{ name, regions{ name, constituencies{ name, candidates{ name, partyName, isElected, numOfVote, rateOfVote, finance{ income{ total, items{ name, amount } }, outcome{ total, items{ name, amount } } } } } } } }`
+            },
+          },
+          // {
+          //   url: `http://35.184.76.205/api/v1/graphql`,
+          //   name: `President2016`,
+          //   entityLevel: `data.election`,
+          //   params: {
+          //     query: `{ election(etype: "president", year: 2016){ name, regions{ name, constituencies{ name, candidates{ name, partyName, isElected, numOfVote, rateOfVote, finance{ income{ total, items{ name, amount } }, outcome{ total, items{ name, amount } } } } } } } }`
+          //   },
+          // },
+        ]
+      }
+    }
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
