@@ -2,17 +2,16 @@ import React from 'react'
 import { Link } from "gatsby"
 import { graphql } from "gatsby"
 import Layout from "../../components/layout"
+import RegionsLinks from "../../components/regions_links"
 import style from "../../stylesheets/constituency.module.css"
 
 const Constituency = ({ pageContext }) => {
-  const regions = pageContext.election.regions.map((region) =>
-    <Link to={ `${pageContext.urlPrefix}/regions/${region.name}/constituencies/${region.constituencies[0].name}` }>{ region.name }</Link>
-  )
   return(
     <Layout>
       <div>
         <h1>{ pageContext.election.name }</h1>
-        <div>{ regions }</div>
+        <RegionsLinks regions={ pageContext.election.regions }
+                      urlPrefix={ pageContext.urlPrefix } />
         
         <ConstituenciesOfRegion electionSlug={ pageContext.election.name.toLowerCase().replace(/\s/g, '-') }
                                 constituencies={ pageContext.constituenciesOfRegion }
