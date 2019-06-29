@@ -9,6 +9,19 @@
   flex: 3;
 }
 
+.constituenciesLinks {
+  list-style: none;
+}
+
+.constituencyLink {
+  display: inline;
+  margin-right: 1rem;
+}
+
+.constituencyLink a {
+  word-break: keep-all;
+}
+
 .candidateFinanceBlock {
   flex: 6;
   display: flex;

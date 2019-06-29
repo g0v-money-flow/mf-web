@@ -9,7 +9,7 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/data`,
+        path: `${__dirname}/src/data`,
       },
     },
     `gatsby-transformer-json`,
@@ -31,6 +31,8 @@ module.exports = {
     {
       resolve: "gatsby-source-apiserver",
       options: {
+        localSave: true,
+        path: `${__dirname}/src/data/`,
         typePrefix: `elections`,
         enableDevRefresh: true,
         url: `http://35.184.76.205/api/v1/graphql`,
