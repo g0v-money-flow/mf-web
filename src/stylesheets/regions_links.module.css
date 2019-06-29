@@ -1,0 +1,14 @@
+.regionsLinks {
+  list-style: none;
+}
+
+.regionLink {
+  display: inline;
+  margin-right: 1rem;
+}
+
+.regionLink a {
+  display: inline;
+  margin-right: 1rem;
+  word-break: keep-all;
+}

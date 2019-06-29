@@ -1,19 +1,25 @@
 import React from 'react'
 import { Link } from "gatsby"
+import styles from '../stylesheets/regions_links.module.css'
 
 class RegionsLinks extends React.Component {
   constructor(props) {
     super(props)
-    console.log(props)
     this.regionsLinks = this.props.regions.map((region) => (
-      <li>
-        <Link to={ `${this.props.urlPrefix}/regions/${region.name}/constituencies/${region.constituencies[0].name}` }>{ region.name }</Link>
-      </li>
+      <RegionLink urlPrefix={ this.props.urlPrefix } regionName={region.name} constituencyName={region.constituencies[0].name} />
     ))
   }
   render() {
-    return (<ul>{ this.regionsLinks }</ul>)
+    return (
+      <ul className={styles.regionsLinks}>{ this.regionsLinks }</ul>
+    )
   }
 }
+
+export const RegionLink = ({ urlPrefix, regionName, constituencyName }) => (
+  <li className={styles.regionLink}>
+    <Link to={ `${urlPrefix}/regions/${regionName}/constituencies/${constituencyName}` }>{ regionName }</Link>
+  </li>
+)
 
 export default RegionsLinks

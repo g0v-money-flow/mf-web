@@ -3,6 +3,7 @@ import { Link, graphql } from "gatsby"
 import Layout from "../components/layout"
 import RegionsLinks from "../components/regions_links"
 import SEO from "../components/seo"
+import styles from '../stylesheets/elections.module.css'
 
 export const query = graphql`
   query {
@@ -48,7 +49,7 @@ export const YearsList = ({ data }) => {
   ))
   return (
     <div>
-      <ul>
+      <ul className={ styles.yearsList }>
         { yearsList }
       </ul>
     </div>
