@@ -8,16 +8,15 @@ import styles from "../../stylesheets/constituency.module.css"
 const Constituency = ({ pageContext }) => {
   return(
     <Layout>
+      <Link to="/elections/">{'< 返回'}</Link>
       <div>
-        <h1>{ pageContext.election.name }</h1>
+        <h1>{ pageContext.election.title } - { pageContext.regionName }</h1>
         <RegionsLinks regions={ pageContext.election.regions }
                       urlPrefix={ pageContext.urlPrefix } />
-        
         <ConstituenciesOfRegion electionSlug={ pageContext.election.name.toLowerCase().replace(/\s/g, '-') }
                                 constituencies={ pageContext.constituenciesOfRegion }
                                 regionName={ pageContext.regionName } />
-        <h1>{ pageContext.constituency.name }</h1>
-        
+        <h2>{ pageContext.constituency.name }</h2>
         <CandidateBlocks candidates={ pageContext.constituency.candidates } />
       </div>
     </Layout>
@@ -60,7 +59,9 @@ export const CandidateBlock = ({ candidate }) => {
   return (
     <div className={ styles.candidateBlock }>
       <h6 >{ candidate.partyName }</h6>
-      <h1 className={ styles.candidateName }>{ candidate.name }</h1>
+      <Link to={ `/candidates/${candidate.alternative_id}` }>
+        <h1 className={ styles.candidateName }>{ candidate.name }</h1>
+      </Link>
       <h6>得票數:{ candidate.numOfVote } / 得票率: { candidate.rateOfVote }</h6>
       <CandidateFinanceBlock finance={ candidate.finance } />
     </div>

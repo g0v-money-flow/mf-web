@@ -59,7 +59,7 @@ export const YearsList = ({ data }) => {
 export const ElectionBlocks = ({ data }) => {
   const elections = [].concat.apply([], Years({ data }).map((year) => (year.elections)))
   const electionBlocks = elections.map((election) => {
-    if (election.showCities == true) {
+    if (election.showCities === true) {
       return (
         <div>
           <h3>{ election.title }</h3>

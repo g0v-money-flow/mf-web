@@ -5,6 +5,7 @@
  */
 
 // You can delete this file if you're not using it
+const axios = require(`axios`)
 
 exports.createPages = async({ actions: { createPage }, graphql }) => {
   const results = await graphql(`
@@ -17,11 +18,13 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
             constituencies {
               name
               candidates {
+                alternative_id
                 isElected
                 name
                 numOfVote
                 partyName
                 rateOfVote
+                detailLink
                 finance {
                   income {
                     total
@@ -37,7 +40,7 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
       }
     }
   `);
-
+  let candidatesQuery = []
   if (results.error) {
     console.error('Oh sh_t!')
     return
@@ -45,6 +48,17 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
 
   results.data.allElectionsJsonData.nodes.forEach((node) => {
     const election = node
+    switch(election.name) {
+      case '2016 Legislator Election':
+        election.title = '2016 立法委員選舉'
+        break;
+      case '2016 President Election':
+        election.title = '2016 總統選舉'
+        break;
+      default:
+        election.title = election.name
+    }
+
     election.regions.forEach((region) => {
       region.constituencies.forEach((constituency) => {
         const urlPrefix = `elections/${election.name.toLowerCase().replace(/\s/g, '-')}`
@@ -59,7 +73,20 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
             constituency: constituency
           }
         })
+        constituency.candidates.forEach((candidate) => {
+          candidatesQuery.push(candidate)
+        })
       })
     })
   })
+  await Promise.all(candidatesQuery.map(async (candidate) => {
+    const candidateDetail = await axios.get(`${process.env.API_ENDPOINT}/${candidate.detailLink}`)
+      createPage({
+        path: `candidates/${candidate.alternative_id}`,
+        component: require.resolve('./src/templates/candidates/show.js'),
+        context: {
+          candidate: candidateDetail.data.data
+        }
+      })
+  }))
 }

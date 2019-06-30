@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+})
+
 module.exports = {
   siteMetadata: {
     title: `金流百科`,
@@ -31,11 +35,11 @@ module.exports = {
     {
       resolve: "gatsby-source-apiserver",
       options: {
-        localSave: true,
+        localSave: false,
         path: `${__dirname}/src/data/`,
         typePrefix: `elections`,
         enableDevRefresh: true,
-        url: `http://35.184.76.205/api/v1/graphql`,
+        url: `${process.env.API_ENDPOINT}/api/v1/graphql`,
         data: {},
         method: `get`,
         headers: {
@@ -47,7 +51,7 @@ module.exports = {
             name: `JsonData`,
             entityLevel: `data.all`,
             params: {
-              query: `{ all{ name, regions{ name, constituencies{ name, candidates{ name, partyName, isElected, numOfVote, rateOfVote, finance{ income{ total, items{ name, amount } }, outcome{ total, items{ name, amount } } } } } } } }`
+              query: `{ all { name, year, eType, regions { name, constituencies{ name, candidates { id, name, partyName, isElected, numOfVote, rateOfVote, detailLink, finance{ income{ total, items{ name, amount } }, outcome{ total, items{ name, amount } } } } } } } }`
             },
           },
           // {
