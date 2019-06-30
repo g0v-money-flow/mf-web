@@ -74,18 +74,22 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
           }
         })
         constituency.candidates.forEach((candidate) => {
-          candidatesQuery.push(candidate)
+          candidatesQuery.push({
+            prevPath: `${urlPrefix}/regions/${region.name}/constituencies/${constituency.name}`,
+            data: candidate
+          })
         })
       })
     })
   })
   await Promise.all(candidatesQuery.map(async (candidate) => {
-    const candidateDetail = await axios.get(`${process.env.API_ENDPOINT}/${candidate.detailLink}`)
+    const candidateDetail = await axios.get(`${process.env.API_ENDPOINT}/${candidate.data.detailLink}`)
       createPage({
-        path: `candidates/${candidate.alternative_id}`,
+        path: `candidates/${candidate.data.alternative_id}`,
         component: require.resolve('./src/templates/candidates/show.js'),
         context: {
-          candidate: candidateDetail.data.data
+          candidate: candidateDetail.data.data,
+          prevPath: candidate.prevPath
         }
       })
   }))
