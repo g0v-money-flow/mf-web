@@ -5,17 +5,31 @@ import Chart from 'react-google-charts'
 
 
 const Candidate = ({ pageContext }) => {
-  if (pageContext.candidate.finance_data != null) {
-    const candidateOutcome = pageContext.candidate.finance_data.outcome
+  let outcomeRecords
+  if (pageContext.candidate.finance_data !== null) {
+    outcomeRecords = pageContext.candidate.finance_data.outcome.top300
   } else {
-    const candidateOutcome = {}
+    outcomeRecords = []
   }
   const outComeData = []
-  Object.keys(candidateOutcome).forEach((type) => {
-    candidateOutcome[type].records.forEach((record) => {
-      outComeData.push([type, record.object, record.amount])
+  if (outcomeRecords !== null) {
+    outcomeRecords.forEach((record) => {
+      outComeData.push([record.type, record.object, record.amount])
     })
-  })
+  }
+    // Object.keys(candidateOutcome).forEach((type) => {
+  //   const records = candidateOutcome[type].records
+  //   if (records.length !== 0) {
+  //     records.forEach((record) => {
+  //       outComeData.push([type, record.object, record.amount])
+  //     })
+  //   } else {
+  //     const itemsCount = parseInt(candidateOutcome[type].item_count)
+  //     const sum = parseInt(candidateOutcome[type].sum)
+  //     const avg = sum / itemsCount
+  //     outComeData.push([type, `共 ${ itemsCount } 筆款項，平均每筆 ${avg} 元`, sum])
+  //   }
+  // })
   outComeData.unshift(['From', 'To', '金額'])
   return(
     <Layout>
@@ -24,8 +38,9 @@ const Candidate = ({ pageContext }) => {
       <h3>{ pageContext.candidate.party }</h3>
       <p>得票數:{ pageContext.candidate.num_of_vote } / 得票率:{pageContext.candidate.rate_of_vote } </p>
       <Chart
-        width={600}
-        height={'1200px'}
+        forceIFrame={true}
+        width={300}
+        height={'2000px'}
         chartType="Sankey"
         loader={<div>Loading Chart</div>}
         data={outComeData}
