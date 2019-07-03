@@ -3,7 +3,7 @@ import { Link } from "gatsby"
 import { graphql } from "gatsby"
 import Layout from "../../components/layout"
 import RegionsLinks from "../../components/regions_links"
-import styles from "../../stylesheets/constituency.module.css"
+import styles from "../../stylesheets/constituency.module.sass"
 
 const Constituency = ({ pageContext }) => {
   return(
@@ -55,15 +55,25 @@ export const CandidateBlocks = ({ candidates }) => {
 }
 
 export const CandidateBlock = ({ candidate }) => {
-  const isElected = candidate.isElected ? '(當選)' : ''
+  const ElectedLabel = () => (candidate.isElected ? <span className={styles.isElected}>當選</span> : null)
   return (
-    <div className={ styles.candidateBlock }>
-      <h6 >{ candidate.partyName }</h6>
-      <Link to={ `/candidates/${candidate.alternative_id}` }>
-        <h1 className={ styles.candidateName }>{ candidate.name }</h1>
-      </Link>
-      <h6>得票數:{ candidate.numOfVote } / 得票率: { candidate.rateOfVote }</h6>
-      <CandidateFinanceBlock finance={ candidate.finance } />
+    <div className={styles.candidateBlockWrapper}>
+      <ElectedLabel />
+      <h6>{ candidate.partyName }</h6>
+      <div className={ styles.candidateBlock }>
+        <div>
+          <h1>
+            <Link to={ `/candidates/${candidate.alternative_id}`} className={ styles.candidateName }>
+              { candidate.name }
+            </Link>
+          </h1>
+        </div>
+        <div>
+          <h6>得票數:{ candidate.numOfVote }</h6>
+          <h6> 得票率: { candidate.rateOfVote } </h6>
+        </div>
+        <CandidateFinanceBlock finance={ candidate.finance } />
+      </div>
     </div>
   )
 }

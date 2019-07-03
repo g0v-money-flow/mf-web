@@ -3,6 +3,10 @@
 .candidateBlock {
   display: flex;
   margin-bottom: 2rem;
+  position: relative;
+  h6: {
+    margin-bottom: 0px;
+  }
 }
 
 .candidateName {
@@ -31,4 +35,14 @@
 
 .candidateFinanceDetailBlock {
   display: flex;
+}
+
+.isElected {
+  position: absolute;
+  top: -2rem;
+  left: -2rem;
+  border: 2px dashed red;
+  padding: 0.3rem;
+  border-radius: 100%;
+  color: red;
 }
