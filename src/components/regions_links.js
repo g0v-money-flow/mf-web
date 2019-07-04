@@ -10,6 +10,7 @@ class RegionsLinks extends React.Component {
     ))
   }
   render() {
+    if (this.regionsLinks.length < 2) return null
     return (
       <ul className={styles.regionsLinks}>{ this.regionsLinks }</ul>
     )

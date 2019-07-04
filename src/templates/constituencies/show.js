@@ -7,6 +7,11 @@ import styles from "../../stylesheets/constituency.module.sass"
 import Chart from 'react-google-charts'
 
 const Constituency = ({ pageContext }) => {
+  const constituenciesOfRegion = pageContext.constituenciesOfRegion
+  const CurrentConstituencyName = () => {
+    if (constituenciesOfRegion.length < 2) return null
+    return(<h2>{ pageContext.constituency.name }</h2>)
+  }
   return(
     <Layout>
       <Link to="/elections/">{'< 返回'}</Link>
@@ -17,7 +22,7 @@ const Constituency = ({ pageContext }) => {
         <ConstituenciesOfRegion electionSlug={ pageContext.election.name.toLowerCase().replace(/\s/g, '-') }
                                 constituencies={ pageContext.constituenciesOfRegion }
                                 regionName={ pageContext.regionName } />
-        <h2>{ pageContext.constituency.name }</h2>
+        <CurrentConstituencyName />
         <CandidateBlocks candidates={ pageContext.constituency.candidates } />
       </div>
     </Layout>
@@ -29,6 +34,7 @@ export const ConstituenciesOfRegion = ({ electionSlug, constituencies, regionNam
   const constituencyLinks = constituencies.map((constituency) => (
     <ConstituencyLink electionSlug={ electionSlug } regionName={ regionName } constituencyName={ constituency.name} />
   ))
+  if (constituencies.length < 2) return null
   return(
     <ul className={ styles.constituenciesLinks}>
       { constituencyLinks }
@@ -82,11 +88,11 @@ export const CandidateBlock = ({ candidate }) => {
 export const CandidateFinanceBlock = ({ finance }) => {
   finance = finance || {
     income: {
-      total: '無資料',
+      total: 0,
       items: [{ name: '無資料', amount: 0 }]
     },
     outcome: {
-      total: '無資料',
+      total: 0,
       items: [{ name: '無資料', amount: 0 }]
     }
   }
@@ -98,11 +104,12 @@ export const CandidateFinanceBlock = ({ finance }) => {
   let outcomeAmounts = finance.outcome.items.map((item) => (item.amount))
   outcomeTitles.unshift('支出分佈')
   outcomeAmounts.unshift('支出分佈')
+  const incomeTotal = new Intl.NumberFormat('zh-Hans-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 }).format(finance.income.total)
+  const outcomeTotal = new Intl.NumberFormat('zh-Hans-TW', { style: 'currency', currency: 'TWD', minimumFractionDigits: 0 }).format(finance.outcome.total)
   return (
     <div className={ styles.candidateFinanceBlock }>
       <div className={ styles.candidateFinanceDetailBlock }>
         <Chart
-          width={'360px'}
           height={'100px'}
           chartType="BarChart"
           loader={<div>Loading Chart</div>}
@@ -117,11 +124,10 @@ export const CandidateFinanceBlock = ({ finance }) => {
             }
           }}
         />
-        <div>總收入: { finance.income.total }</div>
+        <h6>總收入: { incomeTotal }</h6>
       </div>
       <div className={ styles.candidateFinanceDetailBlock }>
         <Chart
-          width={'360px'}
           height={'100px'}
           chartType="BarChart"
           loader={<div>Loading Chart</div>}
@@ -136,7 +142,7 @@ export const CandidateFinanceBlock = ({ finance }) => {
             }
           }}
         />
-        <div>總支出: { finance.outcome.total }</div>
+        <h6>總支出: { outcomeTotal }</h6>
       </div>
     </div>
   )
