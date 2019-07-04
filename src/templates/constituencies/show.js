@@ -4,6 +4,7 @@ import { graphql } from "gatsby"
 import Layout from "../../components/layout"
 import RegionsLinks from "../../components/regions_links"
 import styles from "../../stylesheets/constituency.module.sass"
+import Chart from 'react-google-charts'
 
 const Constituency = ({ pageContext }) => {
   return(
@@ -49,7 +50,7 @@ export const CandidateBlocks = ({ candidates }) => {
   ))
   return(
     <div className={ styles.candidateBlocks }>
-      {cbs}
+      { cbs }
     </div>
   )
 }
@@ -59,18 +60,18 @@ export const CandidateBlock = ({ candidate }) => {
   return (
     <div className={styles.candidateBlockWrapper}>
       <ElectedLabel />
-      <h6>{ candidate.partyName }</h6>
       <div className={ styles.candidateBlock }>
         <div>
+          <h6>{ candidate.partyName }</h6>
           <h1>
-            <Link to={ `/candidates/${candidate.alternative_id}`} className={ styles.candidateName }>
+            <Link to={ `/candidates/${candidate.alternative_id}` } className={ styles.candidateName }>
               { candidate.name }
             </Link>
           </h1>
-        </div>
-        <div>
-          <h6>得票數:{ candidate.numOfVote }</h6>
-          <h6> 得票率: { candidate.rateOfVote } </h6>
+          <div>
+            <h6>得票數:{ candidate.numOfVote }</h6>
+            <h6> 得票率: { candidate.rateOfVote } </h6>
+          </div>
         </div>
         <CandidateFinanceBlock finance={ candidate.finance } />
       </div>
@@ -82,21 +83,59 @@ export const CandidateFinanceBlock = ({ finance }) => {
   finance = finance || {
     income: {
       total: '無資料',
-      items: []
+      items: [{ name: '無資料', amount: 0 }]
     },
     outcome: {
       total: '無資料',
-      items: []
+      items: [{ name: '無資料', amount: 0 }]
     }
   }
+  let incomeTitles = finance.income.items.map((item) => (item.name))
+  let incomeAmounts = finance.income.items.map((item) => (item.amount))
+  incomeTitles.unshift('收入分佈')
+  incomeAmounts.unshift('收入分佈')
+  let outcomeTitles = finance.outcome.items.map((item) => (item.name))
+  let outcomeAmounts = finance.outcome.items.map((item) => (item.amount))
+  outcomeTitles.unshift('支出分佈')
+  outcomeAmounts.unshift('支出分佈')
   return (
     <div className={ styles.candidateFinanceBlock }>
       <div className={ styles.candidateFinanceDetailBlock }>
-        <div></div>
+        <Chart
+          width={'360px'}
+          height={'100px'}
+          chartType="BarChart"
+          loader={<div>Loading Chart</div>}
+          data={ [incomeTitles, incomeAmounts ]}
+          options={{
+            title: null,
+            chartArea: { width: '100%' },
+            isStacked: 'percent',
+            hAxis: {
+              title: '金額',
+              minValue: 0,
+            }
+          }}
+        />
         <div>總收入: { finance.income.total }</div>
       </div>
       <div className={ styles.candidateFinanceDetailBlock }>
-        <div></div>
+        <Chart
+          width={'360px'}
+          height={'100px'}
+          chartType="BarChart"
+          loader={<div>Loading Chart</div>}
+          data={ [outcomeTitles, outcomeAmounts]}
+          options={{
+            title: null,
+            chartArea: { width: '100%' },
+            isStacked: 'percent',
+            hAxis: {
+              title: '金額',
+              minValue: 0,
+            }
+          }}
+        />
         <div>總支出: { finance.outcome.total }</div>
       </div>
     </div>

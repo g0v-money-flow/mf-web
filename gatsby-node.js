@@ -28,9 +28,17 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
                 finance {
                   income {
                     total
+                    items {
+                      name
+                      amount
+                    }
                   }
                   outcome {
                     total
+                    items {
+                      name
+                      amount
+                    }
                   }
                 }
               }
