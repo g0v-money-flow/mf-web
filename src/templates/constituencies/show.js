@@ -167,21 +167,28 @@ export const CandidatesFinanceCompareChart = ({ candidates }) => {
     let finance = candidate.finance || {
       income: {
         total: 0,
-        items: [{ name: "營利事業捐贈收入", amount: 0 },
-                { name: "個人捐贈收入", amount: 0 },
-                { name: "人民團體捐贈收入", amount: 0 },
-                { name: "匿名捐贈", amount: 0 },
-                { name: "其他收入", amount: 0 }]
+        items: [
+          { name: "個人捐贈收入", amount: 0 },
+          { name: "營利事業捐贈收入", amount: 0 },
+          { name: "政黨捐贈收入", "amount": 0 },
+          { name: "人民團體捐贈收入", amount: 0 },
+          { name: "匿名捐贈", amount: 0 },
+          { name: "其他收入", amount: 0 }
+        ]
       },
       outcome: {
         total: 0,
-        items: [{name: "交通旅運支出", amount: 0},
-                {name: "雜支支出", amount: 0},
-                {name: "公共關係費用支出", amount: 0},
-                {name: "宣傳支出", amount: 0},
-                {name: "返還支出", amount: 0},
-                {name: "人事費用支出", amount: 0},
-                {name: "租用宣傳車輛支出", amount: 0}]
+        items: [
+          { name: "人事費用支出", amount: 0 },
+          { name: "宣傳支出", amount: 0 },
+          { name: "租用宣傳車輛支出", amount: 0 },
+          { name: "集會支出", amount: 0 },
+          { name: "交通旅運支出", amount: 0},
+          { name: "雜支支出", amount: 0 },
+          { name: "返還支出", amount: 0 },
+          { name: "繳庫支出",amount: 0 },
+          { name: "公共關係費用支出", amount: 0 }
+        ]
       }
     }
     return new CandidateFinanceData(finance, candidate.name)
@@ -197,11 +204,12 @@ export const CandidatesFinanceCompareChart = ({ candidates }) => {
       <div className={ styles.candidatesFinanceCompareChartWrapper }>
         <Chart
               chartType="ColumnChart"
+              height={'600px'}
               loader={<div>Loading Chart</div>}
               data={ incomeDatas }
               options={{
                 title: null,
-                isStacked: 'relative',
+                isStacked: true,
                 vAxis: {
                   textPosition: 'none',
                   minValue: 0,
@@ -224,11 +232,12 @@ export const CandidatesFinanceCompareChart = ({ candidates }) => {
       <div className={ styles.candidatesFinanceCompareChartWrapper }>
         <Chart
               chartType="ColumnChart"
+              height={'600px'}
               loader={<div>Loading Chart</div>}
               data={ outcomeDatas }
               options={{
                 title: null,
-                isStacked: 'relative',
+                isStacked: true,
                 vAxis: {
                   textPosition: 'none',
                   minValue: 0,

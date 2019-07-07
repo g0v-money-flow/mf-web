@@ -1,5 +1,15 @@
+@font-face
+  font-family: 'TaipeiSans-Regular'
+  src: url("../fonts/TaipeiSansTCBeta-Regular.ttf")
+  font-weight: normal
+  font-style: normal
+@font-face
+  font-family: 'TaipeiSans-Bold'
+  src: url("../fonts/TaipeiSansTCBeta-Bold.ttf")
+  font-weight: normal
+  font-style: normal
 html
-  font-family: sans-serif
+  font-family: 'TaipeiSans-Regular', sans-serif
   -ms-text-size-adjust: 100%
   -webkit-text-size-adjust: 100%
 body
@@ -146,7 +156,7 @@ textarea
   -webkit-appearance: button
   font: inherit
 html
-  font: 112.5%/1.45em georgia, serif
+  font: 112.5%/1.45em -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
   box-sizing: border-box
   overflow-y: scroll
 *
@@ -157,7 +167,8 @@ html
   box-sizing: inherit
 body
   color: hsla(0, 0%, 0%, 0.8)
-  font-family: georgia, serif
+  font-family: 'TaipeiSans-Regular'
+  // font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
   font-weight: normal
   word-wrap: break-word
   font-kerning: normal
@@ -185,7 +196,7 @@ h1
   padding-top: 0
   margin-bottom: 1.45rem
   color: inherit
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
+  font-family: 'TaipeiSans-Bold', sans-serif
   font-weight: bold
   text-rendering: optimizeLegibility
   font-size: 2.25rem
@@ -200,7 +211,7 @@ h2
   padding-top: 0
   margin-bottom: 1.45rem
   color: inherit
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
+  font-family: 'TaipeiSans-Bold', sans-serif
   font-weight: bold
   text-rendering: optimizeLegibility
   font-size: 1.62671rem
@@ -215,7 +226,7 @@ h3
   padding-top: 0
   margin-bottom: 1.45rem
   color: inherit
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
+  font-family: 'TaipeiSans-Bold', sans-serif
   font-weight: bold
   text-rendering: optimizeLegibility
   font-size: 1.38316rem
@@ -230,7 +241,7 @@ h4
   padding-top: 0
   margin-bottom: 1.45rem
   color: inherit
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
+  font-family: 'TaipeiSans-Bold', sans-serif
   font-weight: bold
   text-rendering: optimizeLegibility
   font-size: 1rem
@@ -245,7 +256,7 @@ h5
   padding-top: 0
   margin-bottom: 1.45rem
   color: inherit
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
+  font-family: 'TaipeiSans-Bold', sans-serif
   font-weight: bold
   text-rendering: optimizeLegibility
   font-size: 0.85028rem
@@ -260,7 +271,7 @@ h6
   padding-top: 0
   margin-bottom: 1.45rem
   color: inherit
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif
+  font-family: 'TaipeiSans-Bold', sans-serif
   font-weight: bold
   text-rendering: optimizeLegibility
   font-size: 0.78405rem
@@ -516,4 +527,3 @@ pre tt:after
 @media only screen and (max-width: 480px)
   html
     font-size: 100%
-
