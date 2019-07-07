@@ -16,14 +16,15 @@ const Constituency = ({ pageContext }) => {
     <Layout>
       <Link to="/elections/">{'< 返回'}</Link>
       <div>
-        <h1>{ pageContext.election.title } - { pageContext.regionName }</h1>
         <RegionsLinks regions={ pageContext.election.regions }
                       urlPrefix={ pageContext.urlPrefix } />
+        <h1>{ pageContext.election.title } - { pageContext.regionName }</h1>
         <ConstituenciesOfRegion electionSlug={ pageContext.election.name.toLowerCase().replace(/\s/g, '-') }
                                 constituencies={ pageContext.constituenciesOfRegion }
                                 regionName={ pageContext.regionName } />
         <CurrentConstituencyName />
         <CandidateBlocks candidates={ pageContext.constituency.candidates } />
+        <hr />
         <CandidatesFinanceCompareChart candidates={ pageContext.constituency.candidates } />
       </div>
     </Layout>
@@ -202,62 +203,62 @@ export const CandidatesFinanceCompareChart = ({ candidates }) => {
   return(
     <div className={ styles.candidatesFinanceCompareChart }>
       <div className={ styles.candidatesFinanceCompareChartWrapper }>
+        <h3>收入比較</h3>
         <Chart
-              chartType="ColumnChart"
-              height={'600px'}
-              loader={<div>Loading Chart</div>}
-              data={ incomeDatas }
-              options={{
-                title: null,
-                isStacked: true,
-                vAxis: {
-                  textPosition: 'none',
-                  minValue: 0,
-                },
-                legend: {
-                  position: 'none'
-                },
-                series: {
-                  0: { color: '#A61C35' },
-                  1: { color: '#CFE4EB' },
-                  2: { color: '#013A40' },
-                  3: { color: '#262522' },
-                  4: { color: '#F2F2F2' },
-                  5: { color: '#F2F2F2' }
-                }
-              }}
-            />
-
+          chartType="ColumnChart"
+          height={'600px'}
+          loader={<div>Loading Chart</div>}
+          data={ incomeDatas }
+          options={{
+            title: null,
+            isStacked: true,
+            vAxis: {
+              textPosition: 'left',
+              minValue: 0,
+            },
+            legend: {
+              position: 'none'
+            },
+            series: {
+              0: { color: '#A61C35' },
+              1: { color: '#CFE4EB' },
+              2: { color: '#013A40' },
+              3: { color: '#262522' },
+              4: { color: '#F2F2F2' },
+              5: { color: '#F2F2F2' }
+            }
+          }}
+        />
       </div>
       <div className={ styles.candidatesFinanceCompareChartWrapper }>
+        <h3>支出比較</h3>
         <Chart
-              chartType="ColumnChart"
-              height={'600px'}
-              loader={<div>Loading Chart</div>}
-              data={ outcomeDatas }
-              options={{
-                title: null,
-                isStacked: true,
-                vAxis: {
-                  textPosition: 'none',
-                  minValue: 0,
-                },
-                legend: {
-                  position: 'none'
-                },
-                series: {
-                  0: { color: '#A61C35' },
-                  1: { color: '#CFE4EB' },
-                  2: { color: '#013A40' },
-                  3: { color: '#262522' },
-                  4: { color: '#F2F2F2' },
-                  5: { color: '#F2F2F2' },
-                  6: { color: '#F2F2F2' },
-                  7: { color: '#F2F2F2' }
-                }
-              }}
-            />
-
+          chartType="ColumnChart"
+          height={'600px'}
+          loader={<div>Loading Chart</div>}
+          data={ outcomeDatas }
+          options={{
+            title: null,
+            isStacked: true,
+            vAxis: {
+              textPosition: 'left',
+              minValue: 0,
+            },
+            legend: {
+              position: 'none'
+            },
+            series: {
+              0: { color: '#A61C35' },
+              1: { color: '#CFE4EB' },
+              2: { color: '#013A40' },
+              3: { color: '#262522' },
+              4: { color: '#F2F2F2' },
+              5: { color: '#F2F2F2' },
+              6: { color: '#F2F2F2' },
+              7: { color: '#F2F2F2' }
+            }
+          }}
+        />
       </div>
     </div>
   )
@@ -269,13 +270,13 @@ class CandidateFinanceData {
     let incomeAmounts = financeData.income.items.map((item) => (item.amount))
     candidateName = candidateName || ''
     incomeTitles.unshift('收入分佈')
-    incomeAmounts.unshift(`${candidateName}收入分佈`)
+    incomeAmounts.unshift(candidateName)
     this.incomeTitles = incomeTitles
     this.incomeAmounts = incomeAmounts
     let outcomeTitles = financeData.outcome.items.map((item) => (item.name))
     let outcomeAmounts = financeData.outcome.items.map((item) => (item.amount))
     outcomeTitles.unshift('支出分佈')
-    outcomeAmounts.unshift(`${candidateName}支出分佈`)
+    outcomeAmounts.unshift(candidateName)
     this.outcomeTitles = outcomeTitles
     this.outcomeAmounts = outcomeAmounts
     this.incomeTotal = new Intl.NumberFormat('zh-Hans-TW', {
