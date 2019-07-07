@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from "gatsby"
 import Layout from "../../components/layout"
 import Chart from 'react-google-charts'
+import { CandidatesFinanceCompareChart } from "../../components/candidate_finance_data"
 
 
 const Candidate = ({ pageContext }) => {
@@ -53,8 +54,9 @@ const Candidate = ({ pageContext }) => {
           data={outcomeData}
           rootProps={{ 'data-testid': '2' }}
         />
-
       </div>
+      <hr />
+      <CandidatesFinanceCompareChart candidates={ pageContext.constituency.candidates} />
     </Layout>
   )
 }

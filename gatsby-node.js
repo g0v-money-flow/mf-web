@@ -84,7 +84,8 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
         constituency.candidates.forEach((candidate) => {
           candidatesQuery.push({
             prevPath: `${urlPrefix}/regions/${region.name}/constituencies/${constituency.name}`,
-            data: candidate
+            data: candidate,
+            constituency: constituency
           })
         })
       })
@@ -97,7 +98,8 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
         component: require.resolve('./src/templates/candidates/show.js'),
         context: {
           candidate: candidateDetail.data.data,
-          prevPath: candidate.prevPath
+          prevPath: candidate.prevPath,
+          constituency: candidate.constituency
         }
       })
   }))
