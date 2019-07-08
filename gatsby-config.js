@@ -13,7 +13,7 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/src/data`,
+        path: `${__dirname}/src/images`,
       },
     },
     `gatsby-transformer-json`,
@@ -54,14 +54,6 @@ module.exports = {
               query: `{ all { name, year, eType, regions { name, constituencies{ name, candidates { id, name, partyName, isElected, numOfVote, rateOfVote, detailLink, finance{ income{ total, items{ name, amount } }, outcome{ total, items{ name, amount } } } } } } } }`
             },
           },
-          // {
-          //   url: `http://35.184.76.205/api/v1/graphql`,
-          //   name: `President2016`,
-          //   entityLevel: `data.election`,
-          //   params: {
-          //     query: `{ election(etype: "president", year: 2016){ name, regions{ name, constituencies{ name, candidates{ name, partyName, isElected, numOfVote, rateOfVote, finance{ income{ total, items{ name, amount } }, outcome{ total, items{ name, amount } } } } } } } }`
-          //   },
-          // },
         ]
       }
     }
