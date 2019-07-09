@@ -59,18 +59,18 @@ const Candidate = ({ pageContext }) => {
         />
       </div>
       <h3>標案資料</h3>
-      <TendersTable tenders={ pageContext.candidate.tenders } />
+      <TendersTablesWrapper tenders={ pageContext.candidate.tenders } />
       <hr />
       <CandidatesFinanceCompareChart candidates={ pageContext.constituency.candidates} />
     </Layout>
   )
 }
 
-class TendersTable extends React.Component {
+class TendersTablesWrapper extends React.Component {
   constructor(props) {
     super(props)
-    this.tenders = props.tenders
-    this.tenderRows = this.tenders.map((tender) => {
+    this.tenders = this.props.tenders
+    this.tendersTables = this.tenders.map((tender) => {
       let totalAmount = new Intl.NumberFormat('zh-Hans-TW', {
         style: 'currency',
         currency: 'TWD',
@@ -78,45 +78,77 @@ class TendersTable extends React.Component {
       }).format(tender.total_amount)
       
       const rowSpan = tender.item.length
-      const tendersList = tender.item.map((item) => {
-        let itemAmount = new Intl.NumberFormat('zh-Hans-TW', {
-          style: 'currency',
-          currency: 'TWD',
-          minimumFractionDigits: 0
-        }).format(item.amount)
-        return (
-          <tr>
-            <td>{ item.unit_name }</td>
-            <td>{ item.title }</td>
-            <td>{ itemAmount }</td>
-            <td className={styles.decisionDate}>{ item.decisionDate }</td>
-          </tr>
-        )
-      })
       return(
-        <table className={ styles.tendersTable }>
-          <thead>
-            <tr>
-              <th width={"35%"}>{ tender.name } </th>
-              <th width={"35%"}>總金額: { totalAmount } 元</th>
-              <th width={"15%"}>{ rowSpan } 件標案</th>
-              <th width={"15%"} className={ styles.dropdownToggler }><FaAngleDown /></th>
-            </tr>
-          </thead>
-          <tbody>
-            { tendersList }
-          </tbody>
-        </table>
+        <TendersTable tender={tender} rowSpan={rowSpan} totalAmount={totalAmount} />
       )
     })
   }
 
   render() {
-    if(this.tenders.length === 0) return(<h6>無標案資料</h6>)
     return(
       <div>
-        { this.tenderRows }
+        { this.tenders.length === 0 ? <h6>無標案資料</h6> : this.tendersTables }
       </div>
+    )
+  }
+}
+
+class TendersTable extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { displayTenderList: false }
+    this.toggleTenderList = this.toggleTenderList.bind(this)
+  }
+
+  toggleTenderList () {
+    this.setState(state => ({
+      displayTenderList: !state.displayTenderList
+    }))
+  }
+
+  render() {
+    return(
+      <table className={ styles.tendersTable }>
+          <thead>
+            <tr>
+              <th width={"35%"}>{ this.props.tender.name } </th>
+              <th width={"35%"}>總金額: { this.props.totalAmount } 元</th>
+              <th width={"15%"}>{ this.props.rowSpan } 件標案</th>
+              <th width={"15%"} className={ styles.dropdownToggler } onClick={this.toggleTenderList}><FaAngleDown /></th>
+            </tr>
+          </thead>
+          <TendersList tendersList={ this.props.tender.item } display={ this.state.displayTenderList } />
+        </table>
+    )
+  }
+}
+
+class TendersList extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { display: this.props.display }
+    this.tendersList = this.props.tendersList.map((item) => {
+      let itemAmount = new Intl.NumberFormat('zh-Hans-TW', {
+          style: 'currency',
+          currency: 'TWD',
+          minimumFractionDigits: 0
+        }).format(item.amount)
+      return (
+        <tr>
+          <td>{ item.unit_name }</td>
+          <td>{ item.title }</td>
+          <td>{ itemAmount }</td>
+          <td className={styles.decisionDate}>{ item.decisionDate }</td>
+        </tr>
+      )
+    })
+  }
+
+  render () {
+    return(
+      <tbody>
+        { this.props.display ? this.tendersList : null }
+      </tbody>
     )
   }
 }

@@ -1,5 +1,5 @@
 import React from "react"
-import { Link, StaticQuery, graphql } from "gatsby"
+import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
 import Img from "gatsby-image"
@@ -26,17 +26,12 @@ export const query = graphql`
   }
 `
 
-const LandingBgImage = ({ data }) => (
-  <Img fluid={data.desktopImage.childImageSharp.fluid} />
-)
-
 const IndexPage = ({ data }) => (
   <Layout>
     <SEO title="首頁 | 金流百科" />
     <div className={ styles.mainContentWrapper }>
       <Img fluid={data.desktopImage.childImageSharp.fluid} className={styles.landingImgDesktop} />
       <Img fluid={data.mobileImage.childImageSharp.fluid} className={styles.landingImgMobile} />
-      {/* <LandingBgImage /> */}
       <div className={ styles.titleBlockWrapper }>
         <div className={ styles.titleWrapper}>
           <h3>台灣為亞洲民主燈塔，選舉決定著我們的未來!</h3>
