@@ -6,7 +6,7 @@ import styles from "../../stylesheets/candidate.module.sass"
 import { CandidatesFinanceCompareChart } from "../../components/candidate_finance_data"
 import { FaAngleDown } from 'react-icons/fa'
 
-
+const Colors = ['#70add1', '#fec58c', '#e49ea2', '#8b8181', '#c6e1c2']
 
 const Candidate = ({ pageContext }) => {
   let incomeRecords
@@ -48,7 +48,21 @@ const Candidate = ({ pageContext }) => {
               chartType="Sankey"
               loader={<div>Loading Chart</div>}
               data={incomeData}
-              rootProps={{ 'data-testid': '1' }}
+              options = {
+                {
+                  sankey: {
+                    node: {
+                      labelPadding: 0,
+                      nodePadding: 5,
+                      width: 20,
+                      colors: ['#70add1', '#fec58c', '#e49ea2', '#8b8181', '#c6e1c2']
+                    },
+                    link: {
+                      colorMode: 'gradient'
+                    }
+                  }
+                }
+              }
             />
           ) }
         { outcomeData.length === 1 ? <h6>沒有資料</h6> :(
@@ -59,7 +73,21 @@ const Candidate = ({ pageContext }) => {
             chartType="Sankey"
             loader={<div>Loading Chart</div>}
             data={outcomeData}
-            rootProps={{ 'data-testid': '2' }}
+            options = {
+              {
+                sankey: {
+                  node: {
+                    labelPadding: 0,
+                    nodePadding: 5,
+                    width: 20,
+                    colors: Colors
+                  },
+                  link: {
+                    colorMode: 'gradient',
+                  }
+                }
+              }
+            }
           />
         ) }
       </div>

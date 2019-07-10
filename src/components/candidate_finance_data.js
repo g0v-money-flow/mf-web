@@ -1,7 +1,8 @@
 import React from 'react'
 import styles from "../stylesheets/constituency.module.sass"
 import Chart from 'react-google-charts'
-
+const incomeColorsSet = ['#70add1', '#fec58c', '#e49ea2', '#8b8181', '#c6e1c2']
+const outcomeColorsSet = ['#70add1', '#b4cedf', '#fec58c', '#ffe7cf', '#e49ea2', '#f0cacd', '#8b8181', '#cbcbcb', '#c6e1c2', '#eaf4e9']
 class CandidateFinanceData {
   constructor(financeData, candidateName) {
     let incomeTitles = financeData.income.items.map((item) => (item.name))
@@ -60,13 +61,7 @@ export const CandidateFinanceBlock = ({ finance }) => {
               minValue: 0,
             },
             legend: { position: 'none' },
-            series: {
-              0: { color: '#A61C35' },
-              1: { color: '#CFE4EB' },
-              2: { color: '#013A40' },
-              3: { color: '#262522' },
-              4: { color: '#F2F2F2' }
-            },
+            colors: incomeColorsSet
           }}
         />
         <h6>總收入: { financeData.incomeTotal }</h6>
@@ -89,13 +84,7 @@ export const CandidateFinanceBlock = ({ finance }) => {
             legend: {
               position: 'none'
             },
-            series: {
-              0: { color: '#A61C35' },
-              1: { color: '#CFE4EB' },
-              2: { color: '#013A40' },
-              3: { color: '#262522' },
-              4: { color: '#F2F2F2' }
-            }
+            colors: outcomeColorsSet            
           }}
         />
         <h6>總支出: { financeData.outcomeTotal }</h6>
@@ -142,8 +131,6 @@ export const CandidatesFinanceCompareChart = ({ candidates }) => {
   const outcomeDatas = candidateFinanceDatas.map((candidateFinanceData) => (candidateFinanceData.outcomeAmounts))
   incomeDatas.unshift(incomeTitles)
   outcomeDatas.unshift(outcomeTitles)
-  console.log(incomeDatas)
-  console.log(outcomeDatas)
   return(
     <div className={ styles.candidatesFinanceCompareChart }>
       <div className={ styles.candidatesFinanceCompareChartWrapper }>
@@ -163,14 +150,7 @@ export const CandidatesFinanceCompareChart = ({ candidates }) => {
             legend: {
               position: 'none'
             },
-            series: {
-              0: { color: '#A61C35' },
-              1: { color: '#CFE4EB' },
-              2: { color: '#013A40' },
-              3: { color: '#262522' },
-              4: { color: '#F2F2F2' },
-              5: { color: '#F2F2F2' }
-            }
+            colors: incomeColorsSet
           }}
         />
       </div>
@@ -191,16 +171,7 @@ export const CandidatesFinanceCompareChart = ({ candidates }) => {
             legend: {
               position: 'none'
             },
-            series: {
-              0: { color: '#A61C35' },
-              1: { color: '#CFE4EB' },
-              2: { color: '#013A40' },
-              3: { color: '#262522' },
-              4: { color: '#F2F2F2' },
-              5: { color: '#F2F2F2' },
-              6: { color: '#F2F2F2' },
-              7: { color: '#F2F2F2' }
-            }
+            colors: outcomeColorsSet
           }}
         />
       </div>

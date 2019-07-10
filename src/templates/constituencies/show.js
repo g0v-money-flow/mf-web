@@ -54,7 +54,7 @@ export const CandidateBlocks = ({ candidates }) => {
   if(candidates === null) { return <div>沒有候選人</div> }
 
   const cbs = candidates.map((candidate) => (
-    <CandidateBlock candidate={candidate} />
+    <CandidateBlock candidate={ candidate } />
   ))
   return(
     <div className={ styles.candidateBlocks }>
@@ -71,7 +71,7 @@ export const CandidateBlock = ({ candidate }) => {
       <div className={ styles.candidateBlock }>
         <div className={ styles.candidateInfo }>
           <div>
-            <h6>{ candidate.partyName }</h6>
+            <h6 className={ styles.partyName }>{ candidate.partyName }</h6>
             <h1>
               <Link to={ `/candidates/${candidate.alternative_id}` } className={ styles.candidateName }>
                 { candidate.name }
