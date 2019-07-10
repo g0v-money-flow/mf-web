@@ -19,7 +19,7 @@ class RegionsLinks extends React.Component {
 
 export const RegionLink = ({ urlPrefix, regionName, constituencyName }) => (
   <li className={styles.regionLink}>
-    <Link to={ `${urlPrefix}/regions/${regionName}/constituencies/${constituencyName}` }>{ regionName }</Link>
+    <Link to={ `/${urlPrefix}/regions/${regionName}/constituencies/${constituencyName}` }>{ regionName }</Link>
   </li>
 )
 

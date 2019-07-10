@@ -124,6 +124,7 @@ export const CandidatesFinanceCompareChart = ({ candidates }) => {
           { name: "人事費用支出", amount: 0 },
           { name: "宣傳支出", amount: 0 },
           { name: "租用宣傳車輛支出", amount: 0 },
+          { name: "租用競選辦事處支", amount: 0 },
           { name: "集會支出", amount: 0 },
           { name: "交通旅運支出", amount: 0},
           { name: "雜支支出", amount: 0 },
@@ -141,6 +142,8 @@ export const CandidatesFinanceCompareChart = ({ candidates }) => {
   const outcomeDatas = candidateFinanceDatas.map((candidateFinanceData) => (candidateFinanceData.outcomeAmounts))
   incomeDatas.unshift(incomeTitles)
   outcomeDatas.unshift(outcomeTitles)
+  console.log(incomeDatas)
+  console.log(outcomeDatas)
   return(
     <div className={ styles.candidatesFinanceCompareChart }>
       <div className={ styles.candidatesFinanceCompareChartWrapper }>

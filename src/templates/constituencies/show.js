@@ -46,7 +46,7 @@ export const ConstituenciesOfRegion = ({ electionSlug, constituencies, regionNam
 
 export const ConstituencyLink = ({ electionSlug, regionName, constituencyName }) => (
   <li className={ styles.constituencyLink}>
-    <Link to={`elections/${electionSlug}/regions/${regionName}/constituencies/${constituencyName}`}>{ constituencyName }</Link>
+    <Link to={`/elections/${electionSlug}/regions/${regionName}/constituencies/${constituencyName}`}>{ constituencyName }</Link>
   </li>
 )
 
