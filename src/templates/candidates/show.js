@@ -35,28 +35,33 @@ const Candidate = ({ pageContext }) => {
       <div style={{
             display: `flex`,
             margin: `0 auto`,
-            maxWidth: 960,
+            maxWidth: 1280,
             padding: `0px 1.0875rem 1.45rem`,
             paddingTop: 0,
+            justifyContent: `space-around`
           }}>
-        <Chart
-          forceIFrame={false}
-          width={480}
-          height={'2000px'}
-          chartType="Sankey"
-          loader={<div>Loading Chart</div>}
-          data={incomeData}
-          rootProps={{ 'data-testid': '1' }}
-        />
-        <Chart
-          forceIFrame={false}
-          width={480}
-          height={'2000px'}
-          chartType="Sankey"
-          loader={<div>Loading Chart</div>}
-          data={outcomeData}
-          rootProps={{ 'data-testid': '2' }}
-        />
+        { incomeData.length === 1 ? <h6>沒有資料</h6> :(
+            <Chart
+              forceIFrame={false}
+              width={640}
+              height={'2000px'}
+              chartType="Sankey"
+              loader={<div>Loading Chart</div>}
+              data={incomeData}
+              rootProps={{ 'data-testid': '1' }}
+            />
+          ) }
+        { outcomeData.length === 1 ? <h6>沒有資料</h6> :(
+          <Chart
+            forceIFrame={false}
+            width={640}
+            height={'2000px'}
+            chartType="Sankey"
+            loader={<div>Loading Chart</div>}
+            data={outcomeData}
+            rootProps={{ 'data-testid': '2' }}
+          />
+        ) }
       </div>
       <h3>標案資料</h3>
       <TendersTablesWrapper tenders={ pageContext.candidate.tenders } />
