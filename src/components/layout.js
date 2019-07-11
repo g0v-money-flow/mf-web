@@ -15,7 +15,14 @@ import "../stylesheets/layout.sass"
 const Layout = ({ children }) => (
   <StaticQuery
     query={graphql`
-      query SiteTitleQuery {
+      query {
+        logoImage: file(relativePath: { eq: "logoImage.png"}) {
+          childImageSharp {
+            fixed(width: 120) {
+              ...GatsbyImageSharpFixed
+            }
+          }
+        }
         site {
           siteMetadata {
             title
@@ -25,7 +32,7 @@ const Layout = ({ children }) => (
     `}
     render={data => (
       <>
-        <Header siteTitle={data.site.siteMetadata.title} />
+        <Header siteTitle={ data.site.siteMetadata.title } logoImage={ data.logoImage.childImageSharp.fixed } />
         <div
           style={{
             margin: `0 auto`,
