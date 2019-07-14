@@ -1,13 +1,22 @@
 @import "colors"
 
+.candidateBlockWrapper
+  margin-bottom: 5rem
+  position: relative
+  h6
+    margin-bottom: 0rem
+
 .candidateBlock
   display: flex
   align-items: center
   max-width: 480px
   flex-direction: column
   align-items: flex-start
+  flex-wrap: wrap
   @media only screen and (max-width: 480px)
     max-width: 360px
+  h1.candidateName
+    margin-bottom: 0
 
 .candidateInfo
   display: flex
@@ -20,3 +29,23 @@
 
 .candidateName
   flex: 3
+
+.votingData
+  display: flex
+  flex-direction: column
+  justify-content: flex-start
+
+.isElected
+  background: $red
+  color: white
+  padding: 0.3rem
+  margin-bottom: 0
+
+.candidateFinanceDetailBlock
+  display: flex
+  align-items: center
+  @media only screen and (max-width: 480px)
+    flex-wrap: wrap-reverse
+    max-width: 360px
+    h6
+      margin-left: 2.5rem

@@ -3,10 +3,97 @@ import { Link } from "gatsby"
 import Layout from "../../components/layout"
 import Chart from 'react-google-charts'
 import styles from "../../stylesheets/candidate.module.sass"
-import { CandidatesFinanceCompareChart } from "../../components/candidate_finance_data"
+import { CandidatesFinanceCompareChart, CandidateFinanceData, incomeColorsSet, outcomeColorsSet } from "../../components/candidate_finance_data"
 import { FaAngleDown } from 'react-icons/fa'
 
 const Colors = ['#70add1', '#fec58c', '#e49ea2', '#8b8181', '#c6e1c2']
+
+export const ElectedLabel = ({ isElected }) => ((isElected ? <h6 className={styles.isElected}>當選</h6> : null))
+export const CandidateFinanceBlock = ({ finance }) => {
+  finance = finance || {
+    income: {
+      total: 0,
+      items: [{ name: '無資料', amount: 0 }]
+    },
+    outcome: {
+      total: 0,
+      items: [{ name: '無資料', amount: 0 }]
+    }
+  }
+  let financeData = new CandidateFinanceData(finance)
+  return (
+    <div className={ styles.candidateFinanceBlock }>
+      <div className={ styles.candidateFinanceDetailBlock }>
+        <Chart
+          height={'100px'}
+          chartType="BarChart"
+          loader={<div>Loading Chart</div>}
+          data={ 
+            [financeData.incomeTitles, financeData.incomeAmounts ]
+          }
+          options={{
+            title: null,
+            isStacked: 'relative',
+            hAxis: {
+              textPosition: 'none',
+              minValue: 0,
+            },
+            legend: { position: 'none' },
+            colors: incomeColorsSet
+          }}
+        />
+        <h6>總收入: { financeData.incomeTotal }</h6>
+      </div>
+      <div className={ styles.candidateFinanceDetailBlock }>
+        <Chart
+          height={'100px'}
+          chartType="BarChart"
+          loader={<div>Loading Chart</div>}
+          data = {
+            [financeData.outcomeTitles, financeData.outcomeAmounts]
+          }
+          options={{
+            title: null,
+            isStacked: 'relative',
+            hAxis: {
+              textPosition: 'none',
+              minValue: 0,
+            },
+            legend: {
+              position: 'none'
+            },
+            colors: outcomeColorsSet            
+          }}
+        />
+        <h6>總支出: { financeData.outcomeTotal }</h6>
+      </div>
+    </div>
+  )
+}
+export const CandidateBlock = ({ candidate }) => {
+  return (
+    <div className={styles.candidateBlockWrapper}>
+      <div className={ styles.candidateBlock }>
+        <div className={ styles.candidateInfo }>
+          <div className={ styles.candidateNameWrapper }>
+            <h6 className={ styles.partyName }>{ candidate.partyName || candidate.party }</h6>
+            <h1 className={ styles.candidateName }>
+              <Link to={ `/candidates/${candidate.alternative_id}` } className={ styles.candidateName }>
+                { candidate.name }
+              </Link>
+            </h1>
+          </div>
+          <div className={ styles.votingData }>
+            <h6>得票數:{ candidate.numOfVote || candidate.num_of_vote }</h6>
+            <h6>得票率: { `${candidate.rateOfVote || candidate.rate_of_vote }%` } </h6>
+            <ElectedLabel isElected={ candidate.is_elected } />
+          </div>
+        </div>
+      </div>
+      <CandidateFinanceBlock finance={ candidate.finance_data } />
+    </div>
+  )
+}
 
 const Candidate = ({ pageContext }) => {
   let incomeRecords
@@ -29,9 +116,7 @@ const Candidate = ({ pageContext }) => {
   return(
     <Layout>
       <Link to={pageContext.prevPath}>{'< 返回'}</Link>
-      <h1>{ pageContext.candidate.name }</h1>
-      <h3>{ pageContext.candidate.party }</h3>
-      <p>得票數:{ pageContext.candidate.num_of_vote } / 得票率:{pageContext.candidate.rate_of_vote } </p>
+      <CandidateBlock candidate={ pageContext.candidate } />
       <div style={{
             display: `flex`,
             margin: `0 auto`,

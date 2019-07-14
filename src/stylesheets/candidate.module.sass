@@ -1,9 +1,91 @@
+@import "colors"
+
+.candidateBlockWrapper
+  margin-bottom: 3rem
+  position: relative
+  display: flex
+  justify-content: space-between
+  flex-wrap: wrap
+  h6
+    margin-bottom: 0rem
+
+  .candidateBlock
+    display: flex
+    align-items: flex-start
+    flex-direction: column
+    flex: 1
+    @media only screen and (max-width: 480px)
+      flex-wrap: wrap
+      max-width: 360px
+    h1.candidateName
+      margin-bottom: 0
+
+  .candidateInfo
+    display: flex
+    width: 100%
+    justify-content: flex-start
+    .candidateNameWrapper
+      word-break: keep-all
+    h6.partyName
+      background-color: $brown
+      padding: 0.5rem
+      color: white
+
+  .candidateName
+    flex: 3
+
+  .votingData
+    display: flex
+    justify-content: flex-start
+    flex-direction: column
+    margin-left: 2rem
+    word-break: keep-all
+    white-space: nowrap
+    @media only screen and (max-width: 480px)
+      flex-direction: column
+
+
+  .isElected
+    background: $red
+    color: white
+    padding: 0.3rem
+    margin-bottom: 0
+
+  
 .tendersTable
   thead
     tr th.dropdownToggler
       text-align: center
       cursor: pointer
   tbody
-    // display: none
     tr td.decisionDate
       text-align: center
+
+.candidateFinanceBlock
+  display: flex
+  flex-wrap: wrap
+  flex-direction: row
+  justify-content: flex-start
+  flex: 1
+  // @media only screen and (max-width: 776px)
+
+
+.candidateFinanceDetailBlock
+  display: flex
+  align-items: center
+  @media only screen and (max-width: 480px)
+    flex-wrap: wrap-reverse
+    max-width: 360px
+    h6
+      margin-left: 2.5rem
+
+.candidatesFinanceCompareChart
+  display: flex
+  justify-content: space-between
+  height: 600px
+  @media only screen and (max-width: 480px)
+    flex-wrap: wrap
+.candidatesFinanceCompareChartWrapper
+  width: 600px
+  h3
+    margin-bottom: 0
