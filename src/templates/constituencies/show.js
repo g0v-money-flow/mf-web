@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from "gatsby"
 import Layout from "../../components/layout"
-import RegionsLinks from "../../components/regions_links"
 import styles from "../../stylesheets/constituency.module.sass"
 import { CandidateFinanceBlock, CandidatesFinanceCompareChart } from "../../components/candidate_finance_data"
 import { CandidateBlock } from '../../components/candidate_block'
@@ -16,8 +15,6 @@ const Constituency = ({ pageContext }) => {
     <Layout>
       <Link to="/elections/">{'< 返回'}</Link>
       <div>
-        <RegionsLinks regions={ pageContext.election.regions }
-                      urlPrefix={ pageContext.urlPrefix } />
         <h1>{ pageContext.election.title } - { pageContext.regionName }</h1>
         <ConstituenciesOfRegion electionSlug={ pageContext.election.name.toLowerCase().replace(/\s/g, '-') }
                                 constituencies={ pageContext.constituenciesOfRegion }
