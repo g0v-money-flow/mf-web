@@ -8,7 +8,7 @@ import styles from "../stylesheets/landing_page.module.sass"
 
 export const query = graphql`
   query {
-    desktopImage: file(relativePath: { eq: "mainvisual.png" }) {
+    desktopImage: file(relativePath: { eq: "mainvisual@3x.png" }) {
       childImageSharp {
         fluid(maxWidth: 1440) {
           ...GatsbyImageSharpFluid

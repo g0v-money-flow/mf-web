@@ -117,23 +117,26 @@ const Candidate = ({ pageContext }) => {
     <Layout>
       <Link to={pageContext.prevPath}>{'< 返回'}</Link>
       <CandidateBlock candidate={ pageContext.candidate } />
+      <h3>百大收支</h3>
       <div style={{
             display: `flex`,
+            flexWrap: `wrap`,
             margin: `0 auto`,
             maxWidth: 1280,
             padding: `0px 1.0875rem 1.45rem`,
             paddingTop: 0,
-            justifyContent: `space-around`
+            justifyContent: `center`
           }}>
         { incomeData.length === 1 ? <h6>沒有資料</h6> :(
+          <div style={{marginRight: `1rem`}}>
             <Chart
               forceIFrame={false}
-              width={640}
+              width={360}
               height={'2000px'}
               chartType="Sankey"
               loader={<div>Loading Chart</div>}
               data={incomeData}
-              options = {
+              options={
                 {
                   sankey: {
                     node: {
@@ -149,31 +152,34 @@ const Candidate = ({ pageContext }) => {
                 }
               }
             />
+          </div>
           ) }
         { outcomeData.length === 1 ? <h6>沒有資料</h6> :(
-          <Chart
-            forceIFrame={false}
-            width={640}
-            height={'2000px'}
-            chartType="Sankey"
-            loader={<div>Loading Chart</div>}
-            data={outcomeData}
-            options = {
-              {
-                sankey: {
-                  node: {
-                    labelPadding: 0,
-                    nodePadding: 5,
-                    width: 20,
-                    colors: Colors
-                  },
-                  link: {
-                    colorMode: 'gradient',
+          <div style={{marginLeft: `1rem`}}>
+            <Chart
+              forceIFrame={false}
+              width={360}
+              height={'2000px'}
+              chartType="Sankey"
+              loader={<div>Loading Chart</div>}
+              data={outcomeData}
+              options = {
+                {
+                  sankey: {
+                    node: {
+                      labelPadding: 0,
+                      nodePadding: 5,
+                      width: 20,
+                      colors: Colors
+                    },
+                    link: {
+                      colorMode: 'gradient',
+                    }
                   }
                 }
               }
-            }
-          />
+            />
+          </div>
         ) }
       </div>
       <h3>標案資料</h3>
