@@ -3,7 +3,7 @@ import { Link, graphql } from "gatsby"
 import Layout from "../components/layout"
 import RegionsLinks from "../components/regions_links"
 import SEO from "../components/seo"
-import styles from '../stylesheets/elections.module.css'
+import styles from '../stylesheets/elections.module.sass'
 
 export const query = graphql`
   query {
@@ -70,17 +70,16 @@ export const ElectionBlocks = ({ data }) => {
     } else {
       return(
         <div>
-          <h3>
-            <Link to={ `elections/${election.name}/regions/全國/constituencies/全國` }>{ election.title }</Link>
-            
-          </h3>
-          
+          <h3>{ election.title }</h3>
+          <ul className={styles.yearsList}>
+            <li><Link to={ `elections/${election.name}/regions/全國/constituencies/全國` }>全國</Link></li>
+          </ul>
         </div>
       )
     }
   })
   return (
-    <div>{ electionBlocks }</div>
+    <div className={styles.electionBlocks}>{ electionBlocks }</div>
     
   )
 }
