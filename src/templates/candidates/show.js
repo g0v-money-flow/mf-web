@@ -96,19 +96,19 @@ export const CandidateBlock = ({ candidate }) => {
 }
 
 const Candidate = ({ pageContext }) => {
-  let incomeRecords
-  let outcomeRecords
+  let incomeTop100Records
+  let outcomeTop100Records
   if (pageContext.candidate.finance_data !== null) {
-    incomeRecords = pageContext.candidate.finance_data.income.top100
-    outcomeRecords = pageContext.candidate.finance_data.outcome.top100
+    incomeTop100Records = pageContext.candidate.finance_data.income.top100
+    outcomeTop100Records = pageContext.candidate.finance_data.outcome.top100
   } else {
-    incomeRecords = []
-    outcomeRecords = []
+    incomeTop100Records = []
+    outcomeTop100Records = []
   }
-  const incomeData = incomeRecords.map((record) => (
+  const incomeData = incomeTop100Records.map((record) => (
     [record.type, record.object, record.amount]
   ))
-  const outcomeData = outcomeRecords.map((record) => (
+  const outcomeData = outcomeTop100Records.map((record) => (
     [record.object, record.type, record.amount]
   ))
   incomeData.unshift(['From', 'To', '金額'])
@@ -128,7 +128,7 @@ const Candidate = ({ pageContext }) => {
             justifyContent: `center`
           }}>
         { incomeData.length === 1 ? <h6>沒有資料</h6> :(
-          <div style={{marginRight: `1rem`}}>
+          <div className={ styles.sankeyChartWrapper } style={{marginRight: `1rem`}}>
             <Chart
               forceIFrame={false}
               width={360}
@@ -152,10 +152,11 @@ const Candidate = ({ pageContext }) => {
                 }
               }
             />
+            <CandidateFinanceTable financeData={ pageContext.candidate.finance_data.income.items } />
           </div>
           ) }
         { outcomeData.length === 1 ? <h6>沒有資料</h6> :(
-          <div style={{marginLeft: `1rem`}}>
+          <div className={ styles.sankeyChartWrapper } style={{marginLeft: `1rem`}}>
             <Chart
               forceIFrame={false}
               width={360}
@@ -179,6 +180,7 @@ const Candidate = ({ pageContext }) => {
                 }
               }
             />
+            <CandidateFinanceTable financeData={ pageContext.candidate.finance_data.outcome.items } />
           </div>
         ) }
       </div>
@@ -187,6 +189,40 @@ const Candidate = ({ pageContext }) => {
       <hr />
       <CandidatesFinanceCompareChart candidates={ pageContext.constituency.candidates} />
     </Layout>
+  )
+}
+
+const CandidateFinanceTable = ({ financeData }) => {
+  const financeDataCells = financeData.map((financeDataItem) => (
+    <td>
+      <h6>
+        { new Intl.NumberFormat('zh-Hans-TW',
+            {
+              style: 'currency',
+              currency: 'TWD',
+              minimumFractionDigits: 0
+            }
+          ).format(financeDataItem.amount) } 元
+      </h6>
+      <h6>{ financeDataItem.item_count } 筆資料</h6>
+      <h6>平均每筆
+        { new Intl.NumberFormat('zh-Hans-TW', {
+            style: 'currency',
+            currency: 'TWD',
+            minimumFractionDigits: 0
+          }).format(financeDataItem.amount / financeDataItem.item_count )} 元
+      </h6>
+      <h4>{ financeDataItem.name }</h4>
+    </td>
+  ))
+  return(
+    <div className={ styles.candidateFinanceTableWrapper }>
+      <table>
+        <tr>
+          { financeDataCells }
+        </tr>
+      </table>
+    </div>
   )
 }
 
@@ -200,7 +236,7 @@ class TendersTablesWrapper extends React.Component {
         currency: 'TWD',
         minimumFractionDigits: 0
       }).format(tender.total_amount)
-      
+
       const rowSpan = tender.item.length
       return(
         <TendersTable tender={tender} rowSpan={rowSpan} totalAmount={totalAmount} />

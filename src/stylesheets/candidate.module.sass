@@ -50,7 +50,17 @@
     color: white
     padding: 0.3rem
     margin-bottom: 0
-
+.sankeyChartWrapper
+  max-width: 480px
+  margin: 0 1rem
+  @media only screen and (max-width: 480px)
+    max-width: 360px
+.candidateFinanceTableWrapper
+  overflow-x: auto
+  padding: 1rem
+  table td
+    width: 5rem
+    white-space: nowrap
   
 .tendersTable
   thead
@@ -67,7 +77,8 @@
   flex-direction: row
   justify-content: flex-start
   flex: 1
-  // @media only screen and (max-width: 776px)
+  @media only screen and (max-width: 480px)
+    margin-left: -2.5rem
 
 
 .candidateFinanceDetailBlock
