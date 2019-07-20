@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from "gatsby"
-import styles from '../stylesheets/regions_links.module.css'
+import styles from '../stylesheets/regions_links.module.sass'
 
 class RegionsLinks extends React.Component {
   constructor(props) {
