@@ -1,3 +1,5 @@
+@import "colors"
+  
 .mainContentWrapper
   position: relative
   margin-top: -2rem
@@ -35,13 +37,17 @@
 .navBtnsWrapper
   flex: 2
   background-color: rgba(255, 255, 255, 0.6)
-  padding: 1rem
+  padding: 0.5rem 1rem
   border-radius: 1rem
   display: flex
   flex-direction: column
+  span.subtitle
+    color: $blue-dark
+    margin-bottom: 1rem
+    font-family: 'TaipeiSans-Bold'
   a
     text-align: center
-    background: #768f96
+    background: $blue-dark
     text-decoration: none
     color: white
     padding: 1rem 2rem
