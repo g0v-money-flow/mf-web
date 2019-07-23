@@ -24,6 +24,14 @@ export const query = graphql`
       }
     }
 
+    coinImage: file(relativePath: { eq: "index-coin.png" }) {
+      childImageSharp {
+        fixed(width: 36) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
+
     totalElectionsFinanceAmount: allElectionsJsonData(filter: { name: { ne: null } }) {
       nodes {
         regions {
@@ -78,7 +86,10 @@ const IndexPage = ({ data }) => {
           </div>
           <div className={ styles.navBtnsWrapper }>
             <span className={ styles.subtitle } >選舉政治獻金累積資料</span>
-            <Link to="/elections">{ totalElectionFinanceAmount } 元</Link>
+            <Link to="/elections">
+              <Img fixed={ data.coinImage.childImageSharp.fixed} className={ styles.coinImage } />
+              { totalElectionFinanceAmount } 元
+            </Link>
           </div>
         </div>
       </div>

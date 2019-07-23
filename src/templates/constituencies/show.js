@@ -1,11 +1,24 @@
 import React from 'react'
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
+import Img from "gatsby-image"
 import Layout from "../../components/layout"
 import styles from "../../stylesheets/constituency.module.sass"
 import { CandidateFinanceBlock, CandidatesFinanceCompareChart } from "../../components/candidate_finance_data"
 import { CandidateBlock } from '../../components/candidate_block'
 
-const Constituency = ({ pageContext }) => {
+export const query = graphql `
+  query {
+    flagImage: file(relativePath: { eq: "flag.png" }) {
+      childImageSharp {
+        fixed(width: 36) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
+  }
+`
+
+const Constituency = ({ data, pageContext }) => {
   const constituenciesOfRegion = pageContext.constituenciesOfRegion
   const CurrentConstituencyName = () => {
     if (constituenciesOfRegion.length < 2) return null
@@ -15,7 +28,10 @@ const Constituency = ({ pageContext }) => {
     <Layout>
       <Link to="/elections/">{'< 返回'}</Link>
       <div>
-        <h1>{ pageContext.election.title } - { pageContext.regionName }</h1>
+        <h1 className={ styles.pageHeading }>
+          <Img fixed={data.flagImage.childImageSharp.fixed} className={ styles.decorationImage } />
+          { pageContext.election.title } - { pageContext.regionName }
+        </h1>
         <ConstituenciesOfRegion electionSlug={ pageContext.election.name.toLowerCase().replace(/\s/g, '-') }
                                 constituencies={ pageContext.constituenciesOfRegion }
                                 regionName={ pageContext.regionName } />

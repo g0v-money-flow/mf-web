@@ -1,5 +1,6 @@
 import React from "react"
 import { Link, graphql } from "gatsby"
+import Img from "gatsby-image"
 import Layout from "../components/layout"
 import RegionsLinks from "../components/regions_links"
 import SEO from "../components/seo"
@@ -10,6 +11,13 @@ export const query = graphql`
     electionsJsonData(name: { ne: null }) {
       regions {
         name
+      }
+    }
+    flagImage: file(relativePath: { eq: "flag.png" }) {
+      childImageSharp {
+        fixed(width: 36) {
+          ...GatsbyImageSharpFixed
+        }
       }
     }
   }
@@ -32,15 +40,15 @@ const ElectionsIndexPage = ({ data }) => {
     <Layout>
       <Link to="/">{'< 返回'}</Link>
       <SEO title="選舉金流" />
-      <YearsList data={data.electionsJsonData} />
-      <ElectionBlocks data={ data.electionsJsonData } />
+      <YearsList data={ data } />
+      <ElectionBlocks data={ data } />
     </Layout>
 
   )
 }
 
 export const YearsList = ({ data }) => {
-  const yearsList = Years({ data }).map((year) => (
+  const yearsList = Years(data.electionsJsonData).map((year) => (
     <li>
       <a href="#">
         { year.year }
@@ -57,12 +65,15 @@ export const YearsList = ({ data }) => {
 }
 
 export const ElectionBlocks = ({ data }) => {
-  const elections = [].concat.apply([], Years({ data }).map((year) => (year.elections)))
+  const elections = [].concat.apply([], Years(data.electionsJsonData).map((year) => (year.elections)))
   const electionBlocks = elections.map((election) => {
     if (election.showCities === true) {
       return (
         <div>
-          <h3>{ election.title }</h3>
+          <h3 className={ styles.electionTitle }>
+            <Img fixed={ data.flagImage.childImageSharp.fixed } className={ styles.decorationImage } />
+            { election.title }
+          </h3>
           <RegionsLinks regions={ election.regions }
                         urlPrefix={ `elections/${election.name}` } />
         </div>
@@ -70,7 +81,10 @@ export const ElectionBlocks = ({ data }) => {
     } else {
       return(
         <div>
-          <h3>{ election.title }</h3>
+          <h3 className={ styles.electionTitle }>
+            <Img fixed={ data.flagImage.childImageSharp.fixed } className={ styles.decorationImage } />
+            { election.title }
+          </h3>
           <ul className={styles.yearsList}>
             <li><Link to={ `elections/${election.name}/regions/全國/constituencies/全國` }>全國</Link></li>
           </ul>
@@ -80,11 +94,10 @@ export const ElectionBlocks = ({ data }) => {
   })
   return (
     <div className={styles.electionBlocks}>{ electionBlocks }</div>
-    
   )
 }
 
-export const Years = ({ data }) => {
+export const Years = (data) => {
   return ([
   // {
   //   year: '2014',
