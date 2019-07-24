@@ -1,10 +1,23 @@
 import React from 'react'
-import { Link } from "gatsby"
+import { Link, graphql } from "gatsby"
+import Img from "gatsby-image"
 import Layout from "../../components/layout"
 import Chart from 'react-google-charts'
 import styles from "../../stylesheets/candidate.module.sass"
 import { CandidatesFinanceCompareChart, CandidateFinanceData, incomeColorsSet, outcomeColorsSet } from "../../components/candidate_finance_data"
 import { FaAngleDown } from 'react-icons/fa'
+
+export const query = graphql `
+  query {
+    billImage: file(relativePath: { eq: "bill.png" }) {
+      childImageSharp {
+        fixed(width: 96) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
+  }
+`
 
 const Colors = ['#70add1', '#fec58c', '#e49ea2', '#8b8181', '#c6e1c2']
 
@@ -95,7 +108,7 @@ export const CandidateBlock = ({ candidate }) => {
   )
 }
 
-const Candidate = ({ pageContext }) => {
+const Candidate = ({ pageContext, data }) => {
   let incomeTop100Records
   let outcomeTop100Records
   if (pageContext.candidate.finance_data !== null) {
@@ -117,7 +130,7 @@ const Candidate = ({ pageContext }) => {
     <Layout>
       <Link to={pageContext.prevPath}>{'< 返回'}</Link>
       <CandidateBlock candidate={ pageContext.candidate } />
-      <h3>百大收支</h3>
+      <h3 className={ styles.sankeyChartTitle }>百大收支</h3>
       <div style={{
             display: `flex`,
             flexWrap: `wrap`,
@@ -184,7 +197,11 @@ const Candidate = ({ pageContext }) => {
           </div>
         ) }
       </div>
-      <h3>標案資料</h3>
+      <h3 className={ styles.tendersTableTitle }>
+        <Img fixed={ data.billImage.childImageSharp.fixed } className={ styles.decorationImage } />
+        <br />
+        標案資料
+      </h3>
       <TendersTablesWrapper tenders={ pageContext.candidate.tenders } />
       <hr />
       <CandidatesFinanceCompareChart candidates={ pageContext.constituency.candidates} />
