@@ -20,6 +20,13 @@ export const query = graphql`
         }
       }
     }
+    boxImage: file(relativePath: { eq: "box.png" }) {
+      childImageSharp {
+        fixed(width: 108) {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    }
   }
 `
 
@@ -42,6 +49,12 @@ const ElectionsIndexPage = ({ data }) => {
       <SEO title="選舉金流" />
       <YearsList data={ data } />
       <ElectionBlocks data={ data } />
+      <Img fixed={ data.boxImage.childImageSharp.fixed }
+           style={
+             { 
+               float: `right`
+             }
+           } />
     </Layout>
 
   )
@@ -93,7 +106,9 @@ export const ElectionBlocks = ({ data }) => {
     }
   })
   return (
-    <div className={styles.electionBlocks}>{ electionBlocks }</div>
+    <div className={styles.electionBlocks}>
+      { electionBlocks }
+    </div>
   )
 }
 
