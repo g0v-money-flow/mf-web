@@ -49,7 +49,7 @@ class Election {
     }
     this.regions = data.regions.map((region) => ({
       name: region.name,
-      constituencies: (region.name === '全國' || '原住民') ? [{ 'name': '全國' }] : [{ 'name': '第01選區' }]
+      firstConstituency: (region.name === '全國' || region.name === '原住民') ? '全國' : '第01選區'
     }))
   }
 }
@@ -104,7 +104,6 @@ export const ElectionBlocks = ({ data }) => {
       </div>
     )
   })
-  // <li><Link to={ `/elections/${election.name}/regions/全國/constituencies/全國` }>全國</Link></li>
   return (
     <div className={styles.electionBlocks}>
       { electionBlocks }

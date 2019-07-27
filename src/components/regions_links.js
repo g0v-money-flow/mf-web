@@ -6,7 +6,7 @@ class RegionsLinks extends React.Component {
   constructor(props) {
     super(props)
     this.regionsLinks = this.props.regions.map((region) => (
-      <RegionLink urlPrefix={ this.props.urlPrefix } regionName={region.name} constituencyName={region.constituencies[0].name} />
+      <RegionLink urlPrefix={ this.props.urlPrefix } regionName={region.name} constituencyName={region.firstConstituency} />
     ))
   }
   render() {
