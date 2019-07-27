@@ -8,9 +8,13 @@ import styles from '../stylesheets/elections.module.sass'
 
 export const query = graphql`
   query {
-    electionsJsonData(name: { ne: null }) {
-      regions {
+    allElectionsJsonData(filter: { name: { ne: null } }) {
+      nodes {
+        year
         name
+        regions {
+          name
+        }
       }
     }
     flagImage: file(relativePath: { eq: "flag.png" }) {
@@ -31,13 +35,21 @@ export const query = graphql`
 `
 
 class Election {
-  constructor(election, data) {
-    this.name = election.name
-    this.title = election.title
-    this.showCities = election.showCities
+  constructor(data) {
+    this.name = data.name.replace(/\s/g, '-').toLowerCase()
+    switch(data.name) {
+      case '2016 Legislator Election':
+        this.title = '立法委員選舉'
+        break;
+      case '2016 President Election':
+        this.title = '總統選舉'
+        break;
+      default:
+        data.title = data.name
+    }
     this.regions = data.regions.map((region) => ({
       name: region.name,
-      constituencies: [{ 'name': '第01選區' }]
+      constituencies: (region.name === '全國' || '原住民') ? [{ 'name': '全國' }] : [{ 'name': '第01選區' }]
     }))
   }
 }
@@ -61,10 +73,11 @@ const ElectionsIndexPage = ({ data }) => {
 }
 
 export const YearsList = ({ data }) => {
-  const yearsList = Years(data.electionsJsonData).map((year) => (
+  const yearsArray = data.allElectionsJsonData.nodes.map((election) => (election.year))
+  const yearsList = [...new Set(yearsArray)].map((year) => (
     <li>
       <a href="#">
-        { year.year }
+        { year }
       </a>
     </li>
   ))
@@ -78,33 +91,20 @@ export const YearsList = ({ data }) => {
 }
 
 export const ElectionBlocks = ({ data }) => {
-  const elections = [].concat.apply([], Years(data.electionsJsonData).map((year) => (year.elections)))
+  const elections = [].concat.apply([], data.allElectionsJsonData.nodes.map((election) => (new Election(election))))
   const electionBlocks = elections.map((election) => {
-    if (election.showCities === true) {
-      return (
-        <div>
-          <h3 className={ styles.electionTitle }>
-            <Img fixed={ data.flagImage.childImageSharp.fixed } className={ styles.decorationImage } />
-            { election.title }
-          </h3>
-          <RegionsLinks regions={ election.regions }
-                        urlPrefix={ `elections/${election.name}` } />
-        </div>
-      )
-    } else {
-      return(
-        <div>
-          <h3 className={ styles.electionTitle }>
-            <Img fixed={ data.flagImage.childImageSharp.fixed } className={ styles.decorationImage } />
-            { election.title }
-          </h3>
-          <ul className={styles.yearsList}>
-            <li><Link to={ `elections/${election.name}/regions/全國/constituencies/全國` }>全國</Link></li>
-          </ul>
-        </div>
-      )
-    }
+    return (
+      <div>
+        <h3 className={ styles.electionTitle }>
+          <Img fixed={ data.flagImage.childImageSharp.fixed } className={ styles.decorationImage } />
+          { election.title }
+        </h3>
+        <RegionsLinks regions={ election.regions }
+                      urlPrefix={ `elections/${election.name}` } />
+      </div>
+    )
   })
+  // <li><Link to={ `/elections/${election.name}/regions/全國/constituencies/全國` }>全國</Link></li>
   return (
     <div className={styles.electionBlocks}>
       { electionBlocks }
@@ -112,64 +112,5 @@ export const ElectionBlocks = ({ data }) => {
   )
 }
 
-export const Years = (data) => {
-  return ([
-  // {
-  //   year: '2014',
-  //   elections: [{
-  //       name: '2014-mayor-election',
-  //       title: '縣市長選舉',
-  //       showCities: true
-  //     },
-  //     {
-  //       name: '2014-representative-election',
-  //       title: '縣市議員選舉',
-  //       showCities: true,
-  //     },
-  //   ].map((election) => (new Election(election, data)))
-  // },
-  {
-    year: '2016',
-    elections: [{
-        name: '2016-president-election',
-        title: '總統選舉',
-        showCities: false,
-      },
-      {
-        name: '2016-legislator-election',
-        title: '立法委員選舉',
-        showCities: true,
-      },
-    ].map((election) => (new Election(election, data)))
-  },
-  // {
-  //   year: '2018',
-  //   elections: [{
-  //       name: '2018-mayor-election',
-  //       title: '縣市長選舉',
-  //       showCities: true,
-  //     },
-  //     {
-  //       name: '2018-representative-election',
-  //       title: '縣市議員選舉',
-  //       showCities: true,
-  //     },
-  //   ].map((election) => (new Election(election, data)))
-  // },
-  // {
-  //   year: '2020',
-  //   elections: [{
-  //       name: '2020-president-election',
-  //       title: '總統選舉',
-  //       showCities: false,
-  //     },
-  //     {
-  //       name: '2020-legislator-election',
-  //       title: '立法委員選舉',
-  //       showCities: true,
-  //     },
-  //   ].map((election) => (new Election(election, data)))
-  // },
-])}
 
 export default ElectionsIndexPage

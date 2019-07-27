@@ -10,17 +10,18 @@ class RegionsLinks extends React.Component {
     ))
   }
   render() {
-    if (this.regionsLinks.length < 2) return null
     return (
       <ul className={styles.regionsLinks}>{ this.regionsLinks }</ul>
     )
   }
 }
 
-export const RegionLink = ({ urlPrefix, regionName, constituencyName }) => (
-  <li className={styles.regionLink}>
-    <Link to={ `/${urlPrefix}/regions/${regionName}/constituencies/${constituencyName}` }>{ regionName }</Link>
-  </li>
-)
+export const RegionLink = ({ urlPrefix, regionName, constituencyName }) => {
+  return (
+    <li className={styles.regionLink}>
+      <Link to={ `/${urlPrefix}/regions/${regionName}/constituencies/${constituencyName}` }>{ regionName }</Link>
+    </li>
+  )
+}
 
 export default RegionsLinks

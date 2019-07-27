@@ -16,7 +16,6 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-    `gatsby-transformer-json`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
@@ -35,7 +34,7 @@ module.exports = {
     {
       resolve: "gatsby-source-apiserver",
       options: {
-        localSave: false,
+        localSave: true,
         path: `${__dirname}/src/data/`,
         typePrefix: `elections`,
         enableDevRefresh: true,
