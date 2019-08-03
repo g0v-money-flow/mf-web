@@ -49,7 +49,7 @@ class Election {
     }
     this.regions = data.regions.map((region) => ({
       name: region.name,
-      firstConstituency: (region.name === '全國' || region.name === '原住民') ? '全國' : '第01選區'
+      firstConstituency: (region.name === '全國' || region.name === '山地立委' || region.name === '平地立委') ? '全國' : '第01選區'
     }))
   }
 }

@@ -32,8 +32,16 @@
     
 .titleWrapper
   flex: 3
-  h3
+  h3.desktopHeading
     word-break: keep-all
+    @media only screen and (max-width: 480px)
+      display: none
+  h3.mobileHeading
+    word-break: keep-all
+    margin-bottom: 1rem
+    @media only screen and (min-width: 480px)
+      display: none
+
 .navBtnsWrapper
   flex: 2
   background-color: rgba(255, 255, 255, 0.6)
