@@ -67,12 +67,31 @@
   
 .tendersTable
   thead
-    tr th.dropdownToggler
+    tr th
+      h4.dropdownToggler
+        text-align: center
+        cursor: pointer
+    h3.tenderCompanyName
+      background: $light-grey
       text-align: center
-      cursor: pointer
+      padding: 2rem
+      box-shadow: 0.1rem 0.1rem 0.3rem
+      border-radius: 1rem
+    h4.tenderTotalAmount
+      padding: 1rem
+      color: white
+      background-color: $orange-high-contrast
   tbody
-    tr td.decisionDate
+    tr span.decisionDate
+      color: white
+      background-color: $brown
+      padding: 0.1rem 1rem 0.1rem 0.1rem
       text-align: center
+    tr p.itemAmount
+      color: $orange
+      background-color: $light-orange
+      text-align: right
+      padding-right: 1rem
 
 .candidateFinanceBlock
   display: flex

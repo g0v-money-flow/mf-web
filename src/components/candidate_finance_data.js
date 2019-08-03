@@ -2,7 +2,7 @@ import React from 'react'
 import styles from "../stylesheets/constituency.module.sass"
 import Chart from 'react-google-charts'
 export const incomeColorsSet = ['#70add1', '#fec58c', '#e49ea2', '#8b8181', '#c6e1c2']
-export const outcomeColorsSet = ['#70add1', '#b4cedf', '#fec58c', '#ffe7cf', '#e49ea2', '#f0cacd', '#8b8181', '#cbcbcb', '#c6e1c2', '#eaf4e9']
+export const outcomeColorsSet = ['#70add1', '#b4cedf', '#fc8916', '#fee8d0', '#e49ea2', '#f0cacd', '#8b8181', '#cbcbcb', '#c6e1c2', '#eaf4e9']
 
 export class CandidateFinanceData {
   constructor(financeData, candidateName) {
