@@ -288,10 +288,16 @@ class TendersTable extends React.Component {
       <table className={ styles.tendersTable }>
           <thead>
             <tr>
-              <th width={"35%"}>{ this.props.tender.name } </th>
+              {/* <th width={"35%"}>{ this.props.tender.name }</th>
               <th width={"35%"}>總金額: { this.props.totalAmount } 元</th>
               <th width={"15%"}>{ this.props.rowSpan } 件標案</th>
-              <th width={"15%"} className={ styles.dropdownToggler } onClick={this.toggleTenderList}><FaAngleDown /></th>
+              <th width={"15%"} className={ styles.dropdownToggler } onClick={this.toggleTenderList}><FaAngleDown /></th> */}
+              <th width={"90%"}>
+                <h3>{ this.props.tender.name }</h3>
+                <h4>{ this.props.rowSpan } 件標案</h4>
+                <h4>總金額: { this.props.totalAmount } 元</h4>
+              </th>
+              <th width={"10%"} className={ styles.dropdownToggler } onClick={this.toggleTenderList}><FaAngleDown /></th>
             </tr>
           </thead>
           <TendersList tendersList={ this.props.tender.item } display={ this.state.displayTenderList } />
@@ -312,10 +318,12 @@ class TendersList extends React.Component {
         }).format(item.amount)
       return (
         <tr>
-          <td>{ item.unit_name }</td>
-          <td>{ item.title }</td>
-          <td>{ itemAmount }</td>
-          <td className={styles.decisionDate}>{ item.decisionDate }</td>
+          <td colSpan={ 2 }>
+            <span>{ item.decisionDate }</span>
+            <p>{ item.unit_name }</p>
+            <p>{ item.title }</p>
+            <p>{ itemAmount }</p>
+          </td>
         </tr>
       )
     })
