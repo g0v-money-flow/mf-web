@@ -63,6 +63,12 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
       case '2016 President Election':
         election.title = '2016 總統選舉'
         break;
+      case '2018 Council Election':
+        election.title = '2018 縣市議員選舉'
+        break;
+      case '2018 Mayor Election':
+        election.title = '2018 縣市長選舉'
+        break;
       default:
         election.title = election.name
     }

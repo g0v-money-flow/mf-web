@@ -44,13 +44,27 @@ class Election {
       case '2016 President Election':
         this.title = '總統選舉'
         break;
+      case '2018 Council Election':
+        this.title = '縣市議員選舉'
+        break;
+      case '2018 Mayor Election':
+        this.title = '縣市長選舉'
+        break;
       default:
         data.title = data.name
     }
-    this.regions = data.regions.map((region) => ({
-      name: region.name,
-      firstConstituency: (region.name === '全國' || region.name === '山地立委' || region.name === '平地立委') ? '全國' : '第01選區'
-    }))
+    this.regions = data.regions.map((region) => {
+      let firstConstituency = '第01選區'
+      if(['全國', '山地立委', '平地立委'].includes(region.name)) {
+        firstConstituency = '全國'
+      } else if(data.name === '2018 Mayor Election') {
+        firstConstituency = region.name
+      }
+      return({
+        name: region.name,
+        firstConstituency: firstConstituency
+      })
+    })
   }
 }
 
