@@ -69,6 +69,12 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
       case '2018 Mayor Election':
         election.title = '2018 縣市長選舉'
         break;
+      case '2014 Mayor Election':
+        election.title = '2014 縣市長選舉'
+        break;
+      case '2014 Council Election':
+        election.title = '2014 縣市議員選舉'
+        break;
       default:
         election.title = election.name
     }
@@ -97,16 +103,55 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
       })
     })
   })
-  await Promise.all(candidatesQuery.map(async (candidate) => {
-    const candidateDetail = await axios.get(`${process.env.API_ENDPOINT}/${candidate.data.detailLink}`)
-      createPage({
-        path: `candidates/${candidate.data.alternative_id}`,
-        component: require.resolve('./src/templates/candidates/show.js'),
-        context: {
-          candidate: candidateDetail.data.data,
-          prevPath: candidate.prevPath,
-          constituency: candidate.constituency
+
+  const threads = []
+  const jobAmountPerThread = 25
+  let threadAmounts = candidatesQuery.length / jobAmountPerThread
+  if(!threadAmounts % 1 === 0) {
+    threadAmounts = parseInt(threadAmounts) + 1
+  }
+  for(i = 0; i < threadAmounts; i++) {
+    threads.push([])
+  }
+  candidatesQuery.map((candidate, index) => {
+    let remainder = (index + 1) % jobAmountPerThread
+    let groupNo = 0
+    if(remainder < (index + 1)) {
+      groupNo = parseInt((index + 1 - remainder) / jobAmountPerThread)
+    }
+    
+    threads[groupNo].push(candidate)
+  })
+
+
+  threads.forEach((thread) => {
+    ~async function() {
+      for(i = 0; i <= thread.length; i++) {
+        let candidate = thread[i];
+        if(candidate === undefined) {
+          console.log('candidate undefined')
+          break;
         }
-      })
-  }))
+        const candidateDetail = await axios.get(`${process.env.API_ENDPOINT}/${candidate.data.detailLink}`).catch(error => {
+          console.log(candidate.data.detailLink)
+          console.log('server error')
+        });
+        if(candidateDetail === undefined) { break }
+        createPage({
+          path: `candidates/${candidate.data.alternative_id}`,
+          component: require.resolve('./src/templates/candidates/show.js'),
+          context: {
+            candidate: candidateDetail.data.data,
+            prevPath: candidate.prevPath,
+            constituency: candidate.constituency
+          }
+        })
+      }
+    }()
+  }) 
 }
+
+// function sleep(ms) {
+//   return new Promise(resolve => setTimeout(resolve, ms));
+// }
+

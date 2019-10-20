@@ -44,9 +44,11 @@ class Election {
       case '2016 President Election':
         this.title = '總統選舉'
         break;
+      case '2014 Council Election':
       case '2018 Council Election':
         this.title = '縣市議員選舉'
         break;
+      case '2014 Mayor Election':
       case '2018 Mayor Election':
         this.title = '縣市長選舉'
         break;
