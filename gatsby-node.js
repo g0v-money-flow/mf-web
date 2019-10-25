@@ -7,7 +7,8 @@
 // You can delete this file if you're not using it
 const axios = require(`axios`)
 
-exports.createPages = async({ actions: { createPage }, graphql }) => {
+exports.createPages = async({ actions, graphql }) => {
+  const { createPage } = actions
   const results = await graphql(`
     {
       allElectionsJsonData(filter: { name: { ne: null } }) {
@@ -105,7 +106,7 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
   })
 
   const threads = []
-  const jobAmountPerThread = 25
+  const jobAmountPerThread = 100
   let threadAmounts = candidatesQuery.length / jobAmountPerThread
   if(!threadAmounts % 1 === 0) {
     threadAmounts = parseInt(threadAmounts) + 1
@@ -113,22 +114,25 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
   for(i = 0; i < threadAmounts; i++) {
     threads.push([])
   }
-  candidatesQuery.map((candidate, index) => {
+  for(index = 0; index <= candidatesQuery.length; index++) {
+    var candidate = candidatesQuery[index];
     let remainder = (index + 1) % jobAmountPerThread
     let groupNo = 0
     if(remainder < (index + 1)) {
       groupNo = parseInt((index + 1 - remainder) / jobAmountPerThread)
     }
-    
     threads[groupNo].push(candidate)
-  })
+  }
 
-
-  threads.forEach((thread) => {
+  for(let thread of threads) {
     ~async function() {
-      for(i = 0; i <= thread.length; i++) {
-        let candidate = thread[i];
-        if(candidate === undefined) {
+      for(let candidate of thread) {
+        if(!candidate){
+          console.log('undefined candidate')
+          break;
+        }
+        if(!candidate.data) {
+          console.log(candidate)
           console.log('candidate undefined')
           break;
         }
@@ -148,10 +152,30 @@ exports.createPages = async({ actions: { createPage }, graphql }) => {
         })
       }
     }()
-  }) 
+  }
+  // threads.forEach(async(thread) => {
+    // ~async function() {
+  //     for(i = 0; i <= thread.length; i++) {
+  //       let candidate = thread[i];
+  //       if(candidate === undefined) {
+  //         console.log('candidate undefined')
+  //         break;
+  //       }
+  //       const candidateDetail = await axios.get(`${process.env.API_ENDPOINT}/${candidate.data.detailLink}`).catch(error => {
+  //         console.log(candidate.data.detailLink)
+  //         console.log('server error')
+  //       });
+  //       if(candidateDetail === undefined) { break }
+  //       createPage({
+  //         path: `candidates/${candidate.data.alternative_id}`,
+  //         component: require.resolve('./src/templates/candidates/show.js'),
+  //         context: {
+  //           candidate: candidateDetail.data.data,
+  //           prevPath: candidate.prevPath,
+  //           constituency: candidate.constituency
+  //         }
+  //       })
+  //     }
+    // }()
+  // })
 }
-
-// function sleep(ms) {
-//   return new Promise(resolve => setTimeout(resolve, ms));
-// }
-

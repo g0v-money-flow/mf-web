@@ -126,8 +126,8 @@ export const CandidatesFinanceCompareChart = ({ candidates }) => {
     }
     return new CandidateFinanceData(finance, candidate.name)
   })
-  const incomeTitles = candidateFinanceDatas[1].incomeTitles
-  const outcomeTitles = candidateFinanceDatas[1].outcomeTitles
+  const incomeTitles = candidateFinanceDatas[0].incomeTitles
+  const outcomeTitles = candidateFinanceDatas[0].outcomeTitles
   const incomeDatas = candidateFinanceDatas.map((candidateFinanceData) => (candidateFinanceData.incomeAmounts))
   const outcomeDatas = candidateFinanceDatas.map((candidateFinanceData) => (candidateFinanceData.outcomeAmounts))
   incomeDatas.unshift(incomeTitles)
