@@ -8,9 +8,11 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { StaticQuery, graphql } from "gatsby"
+import powerByImage from "../images/poweredby-long-i.svg"
 
 import Header from "./header"
 import "../stylesheets/layout.sass"
+import styles from '../stylesheets/landing_page.module.sass'
 
 const Layout = ({ children }) => (
   <StaticQuery
@@ -42,10 +44,10 @@ const Layout = ({ children }) => (
           }}
         >
           <main>{children}</main>
-          <footer>
-            © g0v {new Date().getFullYear()}, Built with
-            {` `}
-            <a href="https://www.gatsbyjs.org">Gatsby</a>
+          <footer className={ styles.footer }>
+            <a href="https://g0v.tw" className={ styles.g0vLink}>
+              <img src={ powerByImage } />
+            </a>
           </footer>
         </div>
       </>

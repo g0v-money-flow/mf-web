@@ -55,7 +55,6 @@
     font-family: 'TaipeiSans-Bold'
   a
     position: relative
-    text-align: center
     background: $blue-dark
     text-decoration: none
     color: white
@@ -66,5 +65,34 @@
       position: absolute !important
       right: 1rem
       top: -0.5rem
+div.informationsWrapper
+  display: flex
+  padding: 0 10% 0 20%
+  justify-content: space-between
+  @media only screen and (max-width: 960px)
+    padding: 0 20%
+  @media only screen and (max-width: 480px)
+    padding: 0
+  div.newsBlock
+    width: 55%
+  div.contributionBlock
+    width: 45%
 
+a.g0vLink
+  display: inline-block
+  text-align: center
+  width: 20%
+  padding: 1rem 1rem 0 1rem
+  background: $blue-dark
+  border-radius: 10px
+  img
+    display: inline-block
+    width: 24rem
+  @media only screen and (max-width: 480px)
+    width: 80%
+    padding: 1rem 1rem 0 1rem
+    img
+      display: inline-block
+      width: 20rem
+    
     
