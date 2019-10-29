@@ -121,61 +121,23 @@ exports.createPages = async({ actions, graphql }) => {
     if(remainder < (index + 1)) {
       groupNo = parseInt((index + 1 - remainder) / jobAmountPerThread)
     }
-    threads[groupNo].push(candidate)
+    if(candidate && candidate.data) {
+      threads[groupNo].push(candidate)
+    }
   }
 
   for(let thread of threads) {
-    ~async function() {
-      for(let candidate of thread) {
-        if(!candidate){
-          console.log('undefined candidate')
-          break;
+    await Promise.all(thread.map(async (candidate) => {
+      const candidateDetail = await axios.get(`${process.env.API_ENDPOINT}/${candidate.data.detailLink}`)
+      createPage({
+        path: `candidates/${candidate.data.alternative_id}`,
+        component: require.resolve('./src/templates/candidates/show.js'),
+        context: {
+          candidate: candidateDetail.data.data,
+          prevPath: candidate.prevPath,
+          constituency: candidate.constituency
         }
-        if(!candidate.data) {
-          console.log(candidate)
-          console.log('candidate undefined')
-          break;
-        }
-        const candidateDetail = await axios.get(`${process.env.API_ENDPOINT}/${candidate.data.detailLink}`).catch(error => {
-          console.log(candidate.data.detailLink)
-          console.log('server error')
-        });
-        if(candidateDetail === undefined) { break }
-        createPage({
-          path: `candidates/${candidate.data.alternative_id}`,
-          component: require.resolve('./src/templates/candidates/show.js'),
-          context: {
-            candidate: candidateDetail.data.data,
-            prevPath: candidate.prevPath,
-            constituency: candidate.constituency
-          }
-        })
-      }
-    }()
+      })
+    }))
   }
-  // threads.forEach(async(thread) => {
-    // ~async function() {
-  //     for(i = 0; i <= thread.length; i++) {
-  //       let candidate = thread[i];
-  //       if(candidate === undefined) {
-  //         console.log('candidate undefined')
-  //         break;
-  //       }
-  //       const candidateDetail = await axios.get(`${process.env.API_ENDPOINT}/${candidate.data.detailLink}`).catch(error => {
-  //         console.log(candidate.data.detailLink)
-  //         console.log('server error')
-  //       });
-  //       if(candidateDetail === undefined) { break }
-  //       createPage({
-  //         path: `candidates/${candidate.data.alternative_id}`,
-  //         component: require.resolve('./src/templates/candidates/show.js'),
-  //         context: {
-  //           candidate: candidateDetail.data.data,
-  //           prevPath: candidate.prevPath,
-  //           constituency: candidate.constituency
-  //         }
-  //       })
-  //     }
-    // }()
-  // })
 }
