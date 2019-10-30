@@ -7,7 +7,7 @@ export const ElectedLabel = ({ isElected }) => ((isElected ? <h6 className={styl
 
 export const CandidateBlock = ({ candidate }) => {
   return (
-    <div className={styles.candidateBlockWrapper}>
+    <div className={ styles.candidateBlockWrapper }>
       <div className={ styles.candidateBlock }>
         <div className={ styles.candidateInfo }>
           <div>

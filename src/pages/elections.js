@@ -39,18 +39,22 @@ class Election {
     this.name = data.name.replace(/\s/g, '-').toLowerCase()
     switch(data.name) {
       case '2016 Legislator Election':
-        this.title = '立法委員選舉'
+        this.title = '2016 立法委員選舉'
         break;
       case '2016 President Election':
-        this.title = '總統選舉'
+        this.title = '2016 總統選舉'
         break;
       case '2014 Council Election':
+        this.title = '2014 縣市議員選舉'
+        break;
       case '2018 Council Election':
-        this.title = '縣市議員選舉'
+        this.title = '2018 縣市議員選舉'
         break;
       case '2014 Mayor Election':
+        this.title = '2014 縣市長選舉'
+        break;
       case '2018 Mayor Election':
-        this.title = '縣市長選舉'
+        this.title = '2018 縣市長選舉'
         break;
       default:
         data.title = data.name
@@ -76,7 +80,7 @@ const ElectionsIndexPage = ({ data }) => {
     <Layout>
       <Link to="/">{'< 返回'}</Link>
       <SEO title="選舉金流" />
-      <YearsList data={ data } />
+      {/* <YearsList data={ data } /> */}
       <ElectionBlocks data={ data } />
       <Img fixed={ data.boxImage.childImageSharp.fixed }
            style={

@@ -3,7 +3,7 @@ import { Link, graphql } from "gatsby"
 import Img from "gatsby-image"
 import Layout from "../../components/layout"
 import styles from "../../stylesheets/constituency.module.sass"
-import { CandidateFinanceBlock, CandidatesFinanceCompareChart } from "../../components/candidate_finance_data"
+import { CandidatesFinanceCompareChart } from "../../components/candidate_finance_data"
 import { CandidateBlock } from '../../components/candidate_block'
 
 export const query = graphql `

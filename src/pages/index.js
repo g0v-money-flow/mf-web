@@ -91,6 +91,10 @@ const IndexPage = ({ data }) => {
               <Img fixed={ data.coinImage.childImageSharp.fixed} className={ styles.coinImage } />
               累積 { totalElectionFinanceAmount } 元政治獻金
             </Link>
+            <Link to="/referendums">
+              <Img fixed={ data.coinImage.childImageSharp.fixed} className={ styles.coinImage } />
+              累積 NT$6,380 元公民投票經費資料
+            </Link>
           </div>
         </div>
       </div>
