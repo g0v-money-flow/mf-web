@@ -102,7 +102,7 @@ const IndexPage = ({ data }) => {
         <div className={ styles.contributionBlock }>
           <h3>如何貢獻</h3>
           <h4>揪討論: <a href="https://hackmd.io/4pyaJBQNSouvvtjdMbiuKQ?both">HACKMD ></a></h4>
-          <h4>揪開源: <a href="github.com/g0v-money-flow">GITHUB ></a></h4>
+          <h4>揪開源: <a href="https://github.com/g0v-money-flow">GITHUB ></a></h4>
         </div>
         <div className={ styles.newsBlock }>
           <h3>最新消息</h3>
