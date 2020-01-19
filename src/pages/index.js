@@ -98,11 +98,18 @@ const IndexPage = ({ data }) => {
           </div>
         </div>
       </div>
-      <div className={styles.informationsWrapper}>
-        <div className={ styles.contributionBlock }>
-          <h3>如何貢獻</h3>
-          <h4>揪討論: <a href="https://hackmd.io/4pyaJBQNSouvvtjdMbiuKQ?both">HACKMD ></a></h4>
-          <h4>揪開源: <a href="github.com/g0v-money-flow">GITHUB ></a></h4>
+      <div className={ styles.informationsWrapper }>
+        <div className={ styles.leftColumn }>
+          <div className={ styles.contributionBlock }>
+            <h3>如何貢獻</h3>
+            <h4>揪討論: <a href="https://hackmd.io/4pyaJBQNSouvvtjdMbiuKQ?both" target="_blank">HACKMD ></a></h4>
+            <h4>揪開源: <a href="https://github.com/g0v-money-flow" target="_blank">GITHUB ></a></h4>
+          </div>
+          <hr />
+          <div className={ styles.donateWatchoutBlock }>
+            <h3><a href="https://watchout.backme.tw/checkout/332/7818">贊助沃草</a></h3>
+            <h4>做更多專案</h4>
+          </div>
         </div>
         <div className={ styles.newsBlock }>
           <h3>最新消息</h3>

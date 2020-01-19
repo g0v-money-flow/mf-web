@@ -72,26 +72,47 @@ div.informationsWrapper
     padding: 0 20%
   @media only screen and (max-width: 480px)
     padding: 0
+  div.leftColumn
+    display: flex
+    flex-direction: column
+    width: 40%
   div.newsBlock
     width: 55%
-  div.contributionBlock
-    width: 45%
 
 a.g0vLink
-  display: inline-block
+  display: inline-flex
   text-align: center
   width: 20%
-  padding: 1rem 1rem 0 1rem
   background: $blue-dark
   border-radius: 10px
+  padding: 0.5rem
+  height: 3rem
   img
     display: inline-block
     width: 24rem
+    margin-bottom: 0
   @media only screen and (max-width: 480px)
     width: 80%
-    padding: 1rem 1rem 0 1rem
     img
       display: inline-block
       width: 20rem
+a.watchoutLink
+  display: inline-flex
+  text-align: center
+  width: 20%
+  padding: 0.5rem
+  background: #51e3c2
+  border-radius: 10px
+  height: 3rem
+  img
+    display: inline-block
+    margin-bottom: 0
+  @media only screen and (max-width: 480px)
+    width: 80%
+    img
+      display: inline-block
+      width: 20rem
+    
+    
     
     

@@ -9,6 +9,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import { StaticQuery, graphql } from "gatsby"
 import powerByImage from "../images/poweredby-long-i.svg"
+import watchoutLogo from "../images/watchoutLogo.png"
 
 import Header from "./header"
 import "../stylesheets/layout.sass"
@@ -45,8 +46,11 @@ const Layout = ({ children }) => (
         >
           <main>{children}</main>
           <footer className={ styles.footer }>
-            <a href="https://g0v.tw" className={ styles.g0vLink}>
+            <a href="https://g0v.tw" className={ styles.g0vLink} target="_blank">
               <img src={ powerByImage } />
+            </a>
+            <a href="https://watchout.tw" className={ styles.watchoutLink } target="_blank">
+              <img src={ watchoutLogo } />
             </a>
           </footer>
         </div>
