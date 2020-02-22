@@ -76,6 +76,15 @@ exports.createPages = async({ actions, graphql }) => {
       case '2014 Council Election':
         election.title = '2014 縣市議員選舉'
         break;
+      case '2018 Townshipmayor Election':
+        election.title = '2018 鄉鎮市長選舉'
+        break;
+      case '2018 Villagechief Election':
+        election.title = '2018 村里長選舉'
+        break;
+      case '2018 Townshiprepresentative Election':
+        election.title = '2018 鄉鎮市民代表選舉'
+        break;
       default:
         election.title = election.name
     }
