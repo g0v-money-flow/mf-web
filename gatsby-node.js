@@ -115,7 +115,7 @@ exports.createPages = async({ actions, graphql }) => {
   })
 
   const threads = []
-  const jobAmountPerThread = 100
+  const jobAmountPerThread = 200
   let threadAmounts = candidatesQuery.length / jobAmountPerThread
   if(!threadAmounts % 1 === 0) {
     threadAmounts = parseInt(threadAmounts) + 1
@@ -137,15 +137,20 @@ exports.createPages = async({ actions, graphql }) => {
 
   for(let thread of threads) {
     await Promise.all(thread.map(async (candidate) => {
-      const candidateDetail = await axios.get(`${process.env.API_ENDPOINT}/${candidate.data.detailLink}`)
-      createPage({
-        path: `candidates/${candidate.data.alternative_id}`,
-        component: require.resolve('./src/templates/candidates/show.js'),
-        context: {
-          candidate: candidateDetail.data.data,
-          prevPath: candidate.prevPath,
-          constituency: candidate.constituency
-        }
+      await axios.get(`${process.env.API_ENDPOINT}/${candidate.data.detailLink}`)
+      .then(function(candidateDetail) {
+        createPage({
+          path: `candidates/${candidate.data.alternative_id}`,
+          component: require.resolve('./src/templates/candidates/show.js'),
+          context: {
+            candidate: candidateDetail.data.data,
+            prevPath: candidate.prevPath,
+            constituency: candidate.constituency
+          }
+        })
+      })
+      .catch(function (error) {
+        console.log(`candidate ${candidate.data.alternative_id} (${candidate.data.name})got following error: ${error}`);
       })
     }))
   }
