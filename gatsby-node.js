@@ -89,29 +89,43 @@ exports.createPages = async({ actions, graphql }) => {
         election.title = election.name
     }
 
-    election.regions.forEach((region) => {
-      region.constituencies.forEach((constituency) => {
-        const urlPrefix = `elections/${election.name.toLowerCase().replace(/\s/g, '-')}`
-        createPage({
-          path: `${urlPrefix}/regions/${region.name}/constituencies/${constituency.name}`,
-          component: require.resolve('./src/templates/constituencies/show.js'),
-          context: {
-            urlPrefix: urlPrefix,
-            election: election,
-            regionName: region.name,
-            constituenciesOfRegion: region.constituencies,
-            constituency: constituency
-          }
-        })
-        constituency.candidates.forEach((candidate) => {
-          candidatesQuery.push({
-            prevPath: `${urlPrefix}/regions/${region.name}/constituencies/${constituency.name}`,
-            data: candidate,
-            constituency: constituency
-          })
-        })
-      })
-    })
+    if(['2018 Townshipmayor Election', '2018 Villagechief Election', '2018 Townshiprepresentative Election'].includes(election.name)) {
+      createConstituencyPages(election)
+      // election.regions.forEach((region) => {
+      //   createConstituencyPages(region.constituencies)
+      // })
+    } else {
+      createConstituencyPages(election, buildCandidateQuery)
+      // election.regions.forEach((region) => {
+      //   createConstituencyPages(region.constituencies, buildCandidateQuery)
+      // })
+    }
+
+    // createConstituencyPages(region.constituencies, buildCandidateQuery)
+    // election.regions.forEach((region) => {
+    //   region.constituencies.forEach((constituency) => {
+    //     const urlPrefix = `elections/${election.name.toLowerCase().replace(/\s/g, '-')}`
+    //     createPage({
+    //       path: `${urlPrefix}/regions/${region.name}/constituencies/${constituency.name}`,
+    //       component: require.resolve('./src/templates/constituencies/show.js'),
+    //       context: {
+    //         urlPrefix: urlPrefix,
+    //         election: election,
+    //         regionName: region.name,
+    //         constituenciesOfRegion: region.constituencies,
+    //         constituency: constituency
+    //       }
+    //     })
+        // buildCandidateQuery(constituency.candidates)
+        // constituency.candidates.forEach((candidate) => {
+        //   candidatesQuery.push({
+        //     prevPath: `${urlPrefix}/regions/${region.name}/constituencies/${constituency.name}`,
+        //     data: candidate,
+        //     constituency: constituency
+        //   })
+        // })
+      // })
+    // })
   })
 
   const threads = []
@@ -153,5 +167,37 @@ exports.createPages = async({ actions, graphql }) => {
         console.log(`candidate ${candidate.data.alternative_id} (${candidate.data.name})got following error: ${error}`);
       })
     }))
+  }
+
+  function createConstituencyPages(election, callback) {
+    election.regions.forEach((region) => {
+      region.constituencies.forEach((constituency) => {
+        const urlPrefix = `elections/${election.name.toLowerCase().replace(/\s/g, '-')}`
+        createPage({
+          path: `${urlPrefix}/regions/${region.name}/constituencies/${constituency.name}`,
+          component: require.resolve('./src/templates/constituencies/show.js'),
+          context: {
+            urlPrefix: urlPrefix,
+            election: election,
+            regionName: region.name,
+            constituenciesOfRegion: region.constituencies,
+            constituency: constituency
+          }
+        })
+        if(callback && typeof callback == 'function') {
+          callback(constituency, urlPrefix, region.name)
+        }
+      })
+    })
+  }
+  
+  function buildCandidateQuery(constituency, urlPrefix, regionName) {
+    constituency.candidates.forEach((candidate) => {
+      candidatesQuery.push({
+        prevPath: `${urlPrefix}/regions/${regionName}/constituencies/${constituency.name}`,
+        data: candidate,
+        constituency: constituency
+      })
+    })
   }
 }
