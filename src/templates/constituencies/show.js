@@ -36,7 +36,7 @@ const Constituency = ({ data, pageContext }) => {
                                 constituencies={ pageContext.constituenciesOfRegion }
                                 regionName={ pageContext.regionName } />
         <CurrentConstituencyName />
-        <CandidateBlocks candidates={ pageContext.constituency.candidates } />
+        <CandidateBlocks candidates={ pageContext.constituency.candidates } electionName={ pageContext.electionName } />
         <hr />
         <CandidatesFinanceCompareChart candidates={ pageContext.constituency.candidates } />
       </div>
@@ -63,11 +63,11 @@ export const ConstituencyLink = ({ electionSlug, regionName, constituencyName })
   </li>
 )
 
-export const CandidateBlocks = ({ candidates }) => {
+export const CandidateBlocks = ({ candidates, electionName }) => {
   if(candidates === null) { return <div>沒有候選人</div> }
 
   const cbs = candidates.map((candidate) => (
-    <CandidateBlock candidate={ candidate } />
+    <CandidateBlock candidate={ candidate } electionName={ electionName } />
   ))
   return(
     <div className={ styles.candidateBlocks }>

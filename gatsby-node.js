@@ -151,6 +151,7 @@ exports.createPages = async({ actions, graphql }) => {
 
   for(let thread of threads) {
     await Promise.all(thread.map(async (candidate) => {
+      // delay(10);
       await axios.get(`${process.env.API_ENDPOINT}/${candidate.data.detailLink}`)
       .then(function(candidateDetail) {
         createPage({
@@ -166,7 +167,8 @@ exports.createPages = async({ actions, graphql }) => {
       .catch(function (error) {
         console.log(`candidate ${candidate.data.alternative_id} (${candidate.data.name})got following error: ${error}`);
       })
-    }))
+    })
+    )
   }
 
   function createConstituencyPages(election, callback) {
@@ -181,7 +183,8 @@ exports.createPages = async({ actions, graphql }) => {
             election: election,
             regionName: region.name,
             constituenciesOfRegion: region.constituencies,
-            constituency: constituency
+            constituency: constituency,
+            electionName: election.name
           }
         })
         if(callback && typeof callback == 'function') {
@@ -199,5 +202,9 @@ exports.createPages = async({ actions, graphql }) => {
         constituency: constituency
       })
     })
+  }
+
+  async function delay(ms) {
+    return await new Promise(resolve => setTimeout(resolve, ms));
   }
 }

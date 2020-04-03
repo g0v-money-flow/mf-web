@@ -5,7 +5,18 @@ import { CandidateFinanceBlock } from "./candidate_finance_data"
 
 export const ElectedLabel = ({ isElected }) => ((isElected ? <h6 className={styles.isElected}>當選</h6> : null))
 
-export const CandidateBlock = ({ candidate }) => {
+export const CandidateBlock = ({ candidate, electionName }) => {
+  const CandidateName = () => {
+    if(['2018 Townshipmayor Election', '2018 Villagechief Election', '2018 Townshiprepresentative Election'].includes(electionName)) {
+      return(candidate.name)
+    } else {
+      return(
+        <Link to={ `/candidates/${candidate.alternative_id}` } className={ styles.candidateName }>
+          { candidate.name }
+        </Link>
+      )
+    }
+  }
   return (
     <div className={ styles.candidateBlockWrapper }>
       <div className={ styles.candidateBlock }>
@@ -13,9 +24,7 @@ export const CandidateBlock = ({ candidate }) => {
           <div>
             <h6 className={ styles.partyName }>{ candidate.partyName || candidate.party }</h6>
             <h1 className={ styles.candidateName }>
-              <Link to={ `/candidates/${candidate.alternative_id}` } className={ styles.candidateName }>
-                { candidate.name }
-              </Link>
+              <CandidateName />
             </h1>
           </div>
           <div className={ styles.votingData }>
