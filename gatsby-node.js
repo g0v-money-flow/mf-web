@@ -88,18 +88,19 @@ exports.createPages = async({ actions, graphql }) => {
       default:
         election.title = election.name
     }
+    createConstituencyPages(election, buildCandidateQuery)
 
-    if(['2018 Townshipmayor Election', '2018 Villagechief Election', '2018 Townshiprepresentative Election'].includes(election.name)) {
-      createConstituencyPages(election)
+    // if(['2018 Townshipmayor Election', '2018 Villagechief Election', '2018 Townshiprepresentative Election'].includes(election.name)) {
+      // createConstituencyPages(election)
       // election.regions.forEach((region) => {
       //   createConstituencyPages(region.constituencies)
       // })
-    } else {
-      createConstituencyPages(election, buildCandidateQuery)
+    // } else {
+      // createConstituencyPages(election, buildCandidateQuery)
       // election.regions.forEach((region) => {
       //   createConstituencyPages(region.constituencies, buildCandidateQuery)
       // })
-    }
+    // }
 
     // createConstituencyPages(region.constituencies, buildCandidateQuery)
     // election.regions.forEach((region) => {
@@ -151,7 +152,6 @@ exports.createPages = async({ actions, graphql }) => {
 
   for(let thread of threads) {
     await Promise.all(thread.map(async (candidate) => {
-      // delay(10);
       await axios.get(`${process.env.API_ENDPOINT}/${candidate.data.detailLink}`)
       .then(function(candidateDetail) {
         createPage({
@@ -174,17 +174,18 @@ exports.createPages = async({ actions, graphql }) => {
   function createConstituencyPages(election, callback) {
     election.regions.forEach((region) => {
       region.constituencies.forEach((constituency) => {
-        const urlPrefix = `elections/${election.name.toLowerCase().replace(/\s/g, '-')}`
+        let electionSlug = election.name.toLowerCase().replace(/\s/g, '-')
+        const urlPrefix = `elections/${electionSlug}`
         createPage({
           path: `${urlPrefix}/regions/${region.name}/constituencies/${constituency.name}`,
           component: require.resolve('./src/templates/constituencies/show.js'),
           context: {
             urlPrefix: urlPrefix,
-            election: election,
+            electionTitle: election.title,
+            electionSlug: electionSlug,
             regionName: region.name,
             constituenciesOfRegion: region.constituencies,
-            constituency: constituency,
-            electionName: election.name
+            constituency: constituency
           }
         })
         if(callback && typeof callback == 'function') {

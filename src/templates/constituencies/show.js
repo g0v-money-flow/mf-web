@@ -30,13 +30,13 @@ const Constituency = ({ data, pageContext }) => {
       <div>
         <h1 className={ styles.pageHeading }>
           <Img fixed={data.flagImage.childImageSharp.fixed} className={ styles.decorationImage } />
-          { pageContext.election.title } - { pageContext.regionName }
+          { pageContext.electionTitle } - { pageContext.regionName }
         </h1>
-        <ConstituenciesOfRegion electionSlug={ pageContext.election.name.toLowerCase().replace(/\s/g, '-') }
+        <ConstituenciesOfRegion electionSlug={ pageContext.electionSlug }
                                 constituencies={ pageContext.constituenciesOfRegion }
                                 regionName={ pageContext.regionName } />
         <CurrentConstituencyName />
-        <CandidateBlocks candidates={ pageContext.constituency.candidates } electionName={ pageContext.electionName } />
+        <CandidateBlocks candidates={ pageContext.constituency.candidates } />
         <hr />
         <CandidatesFinanceCompareChart candidates={ pageContext.constituency.candidates } />
       </div>
@@ -63,11 +63,11 @@ export const ConstituencyLink = ({ electionSlug, regionName, constituencyName })
   </li>
 )
 
-export const CandidateBlocks = ({ candidates, electionName }) => {
+export const CandidateBlocks = ({ candidates }) => {
   if(candidates === null) { return <div>沒有候選人</div> }
 
   const cbs = candidates.map((candidate) => (
-    <CandidateBlock candidate={ candidate } electionName={ electionName } />
+    <CandidateBlock candidate={ candidate } />
   ))
   return(
     <div className={ styles.candidateBlocks }>
