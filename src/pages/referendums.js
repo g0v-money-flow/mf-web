@@ -53,6 +53,7 @@ const ReferendumsIndexPage = ({ data }) => {
   })
   return(
     <Layout>
+      <SEO title="公投 | 選舉金流" />
       <h1 className={ styles.pageHeading }>
         <Img fixed={ data.flagImage.childImageSharp.fixed } className={ styles.decorationImage } />
         公投

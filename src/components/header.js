@@ -2,26 +2,6 @@ import { Link } from "gatsby"
 import PropTypes from "prop-types"
 import React from "react"
 import Img from "gatsby-image"
-import { styles } from '../stylesheets/header.module.sass'
-
-const NonStretchedImage = props => {
-  let normalizedProps = props
-  if (props.fluid && props.fluid.presentationWidth) {
-    normalizedProps = {
-      ...props,
-      style: {
-        ...(props.style || {}),
-        maxWidth: props.fluid.presentationWidth,
-        margin: "0 auto", // Used to center the image
-      },
-    }
-  }
-
-  return <Img {
-    ...normalizedProps
-  }
-  />
-}
 
 const Header = ({ siteTitle, logoImage }) => (
   <header
@@ -46,9 +26,7 @@ const Header = ({ siteTitle, logoImage }) => (
             height: `44px`
           }}
         >
-          {/* <NonStretchedImage fluid={ logoImage } alt={ siteTitle } /> */}
           <Img fixed={ logoImage } alt={ siteTitle } />
-          {/* { siteTitle } */}
         </Link>
       </h1>
     </div>

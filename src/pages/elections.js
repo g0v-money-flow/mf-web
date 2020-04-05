@@ -72,7 +72,10 @@ class Election {
       let firstConstituency = '第01選區'
       if(['全國', '山地立委', '平地立委'].includes(region.name)) {
         firstConstituency = '全國'
-      } else if(data.name === '2018 Mayor Election' || data.name === '2014 Mayor Election') {
+      } else if(['2018 Townshipmayor Election',
+                 '2018 Villagechief Election',
+                 '2018 Mayor Election',
+                 '2014 Mayor Election'].includes(data.name)) {
         firstConstituency = region.name
       }
       return({
