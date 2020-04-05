@@ -44,7 +44,6 @@ module.exports = {
       options: {
         localSave: true,
         path: `${__dirname}/src/data/`,
-        verboseOutput: true,
         typePrefix: `elections`,
         enableDevRefresh: true,
         url: `${process.env.API_ENDPOINT}/api/v1/graphql`,
@@ -56,7 +55,6 @@ module.exports = {
         auth: false,
         entitiesArray: [
           {
-            typePrefix: `elections`,
             name: `JsonData`,
             entityLevel: `data.all`,
             params: {

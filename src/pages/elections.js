@@ -14,6 +14,9 @@ export const query = graphql`
         name
         regions {
           name
+          constituencies {
+            name
+          }
         }
       }
     }
@@ -72,11 +75,11 @@ class Election {
       let firstConstituency = '第01選區'
       if(['全國', '山地立委', '平地立委'].includes(region.name)) {
         firstConstituency = '全國'
-      } else if(['2018 Townshipmayor Election',
-                 '2018 Villagechief Election',
-                 '2018 Mayor Election',
+      } else if(['2018 Mayor Election',
                  '2014 Mayor Election'].includes(data.name)) {
         firstConstituency = region.name
+      } else if(['2018 Villagechief Election', '2018 Townshipmayor Election'].includes(data.name)) {
+        firstConstituency = region.constituencies[0].name
       }
       return({
         name: region.name,
