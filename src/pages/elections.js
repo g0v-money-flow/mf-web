@@ -8,7 +8,7 @@ import styles from '../stylesheets/elections.module.sass'
 
 export const query = graphql`
   query {
-    allElectionsJsonData(filter: { name: { ne: null } }) {
+    allElectionsJson(filter: { name: { ne: null } }) {
       nodes {
         year
         name
@@ -108,7 +108,7 @@ const ElectionsIndexPage = ({ data }) => {
 }
 
 export const YearsList = ({ data }) => {
-  const yearsArray = data.allElectionsJsonData.nodes.map((election) => (election.year))
+  const yearsArray = data.allElectionsJson.nodes.map((election) => (election.year))
   const yearsList = [...new Set(yearsArray)].map((year) => (
     <li>
       <a href="#">
@@ -126,7 +126,7 @@ export const YearsList = ({ data }) => {
 }
 
 export const ElectionBlocks = ({ data }) => {
-  const elections = [].concat.apply([], data.allElectionsJsonData.nodes.map((election) => (new Election(election))))
+  const elections = [].concat.apply([], data.allElectionsJson.nodes.map((election) => (new Election(election))))
   const electionBlocks = elections.map((election) => {
     return (
       <div>

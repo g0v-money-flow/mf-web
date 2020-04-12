@@ -40,28 +40,62 @@ module.exports = {
     },
     `gatsby-plugin-sass`,
     {
+      // https://github.com/g0v-money-flow/mf-web/wiki/gatsby-source-apiserver-使用方式
       resolve: "gatsby-source-apiserver",
       options: {
-        localSave: true,
-        path: `${__dirname}/src/data/`,
-        typePrefix: `elections`,
-        enableDevRefresh: true,
+        // typePrefix: "elections",
         url: `${process.env.API_ENDPOINT}/api/v1/graphql`,
-        data: {},
-        method: `get`,
+        path: `${__dirname}/src/data/`,
+        method: "get",
         headers: {
           "Content-Type": "application/json"
         },
-        auth: false,
-        entitiesArray: [
-          {
-            name: `JsonData`,
-            entityLevel: `data.all`,
-            params: {
-              query: `{ all { name, year, eType, regions { name, constituencies{ name, candidates { id, name, partyName, isElected, numOfVote, rateOfVote, detailLink, finance{ income{ total, items{ name, amount } }, outcome{ total, items{ name, amount } } } } } } } }`
-            },
-          },
-        ]
+        data: {},
+        name: `electionsJson`,
+        entityLevel: `data.elections`,
+        params: {
+          query: `{
+            elections {
+              name
+              eType
+              year
+              regions {
+                name
+                constituencies {
+                  name
+                  candidates {
+                    id,
+                    name,
+                    partyName,
+                    isElected,
+                    numOfVote,
+                    rateOfVote,
+                    detailLink,
+                    finance {
+                      income {
+                        total,
+                        items {
+                          name,
+                          amount
+                        }
+                      },
+                      outcome {
+                        total,
+                        items {
+                          name,
+                          amount
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }`
+        },
+        localSave: true,
+        enableDevRefresh: true,
+        auth: false
       }
     },
     {

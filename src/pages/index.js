@@ -32,7 +32,7 @@ export const query = graphql`
       }
     }
 
-    totalElectionsFinanceAmount: allElectionsJsonData(filter: { name: { ne: null } }) {
+    totalElectionsFinanceAmount: allElectionsJson(filter: { name: { ne: null } }) {
       nodes {
         regions {
           constituencies {

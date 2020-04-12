@@ -11,7 +11,7 @@ exports.createPages = async({ actions, graphql }) => {
   const { createPage } = actions
   const results = await graphql(`
     {
-      allElectionsJsonData(filter: { name: { ne: null } }) {
+      allElectionsJson(filter: { name: { ne: null } }) {
         nodes {
           name
           regions {
@@ -55,7 +55,7 @@ exports.createPages = async({ actions, graphql }) => {
     return
   }
 
-  results.data.allElectionsJsonData.nodes.forEach((node) => {
+  results.data.allElectionsJson.nodes.forEach((node) => {
     const election = node
     switch(election.name) {
       case '2016 Legislator Election':
@@ -127,6 +127,7 @@ exports.createPages = async({ actions, graphql }) => {
         })
       })
       .catch(function (error) {
+        console.log(candidate.data)
         console.log(`candidate ${candidate.data.alternative_id} (${candidate.data.name})got following error: ${error}`);
       })
     })
