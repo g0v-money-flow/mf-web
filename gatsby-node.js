@@ -10,7 +10,7 @@ const axios = require(`axios`)
 exports.createPages = async({ actions, graphql }) => {
   const { createPage } = actions
   const results = await graphql(`
-    {
+    query {
       allElectionsJson(filter: { name: { ne: null } }) {
         nodes {
           name
@@ -88,6 +88,7 @@ exports.createPages = async({ actions, graphql }) => {
       default:
         election.title = election.name
     }
+    // createConstituencyPages(election)
     createConstituencyPages(election, buildCandidateQuery)
   })
 

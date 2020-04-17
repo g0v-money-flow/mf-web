@@ -11,6 +11,7 @@ export const query = graphql`
     allReferendumsJson {
       nodes {
         id
+        referendumId
         no
         passed
         rate_of_vote
@@ -66,7 +67,7 @@ const ReferendumsIndexPage = ({ data }) => {
 
 const ReferendumBlock = ({ referendum }) =>{
   return(
-    <div className={ styles.referendumBlock}>
+    <div id={ referendum.referendumId } className={ styles.referendumBlock}>
       <h3>{ referendum.no }</h3>
       <div className={ styles.referendumInfoWrapper}>
         <p className={ styles.referendumContent }>{ referendum.content }</p>

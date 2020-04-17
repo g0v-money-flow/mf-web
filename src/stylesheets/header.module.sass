@@ -1,4 +1,20 @@
 header
+  display: flex
   h1
     @media screen and (max-width: 480px)
       text-align: center
+  div.headerMenu
+    margin: 0 1rem
+    position: relative
+  div.dropdownMenu
+    position: absolute
+    background: white
+    z-index: 1
+    border: solid 5px
+    padding: 1rem
+    width: 10rem
+    right: 0
+    ul
+      list-style: none
+      li:hover
+        text-decoration: underline
